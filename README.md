@@ -6,7 +6,7 @@ Ce repo contient la paquet npm correspondant à la configuration estlint de l'[a
 
 - Règles communes à JavaScript et Vue/Nuxt
 
-## ⚙️ Configuration Javascript
+### ⚙️ Configuration Javascript
 
 - Utilisation des règles eslint de base (sans plugin)
 
@@ -46,7 +46,6 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'alsacreations', // Utilisation de toutes les configurations
-    'alsacreations/common', // Utilisation des configurations communes
     'alsacreations/javascript', // Utilisation de la configuration JavaScript
     'alsacreations/vue', // Utilisation de la configuration Vue
     'alsacreations/typescript', // Utilisation de la configuration TypeScript

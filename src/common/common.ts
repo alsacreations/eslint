@@ -22,7 +22,8 @@ const commonConfig = defineConfig({
       // Force les propriétés à être espacées Ex: { hello: 'World' } -> espace après le double point
       'key-spacing': ['error', { afterColon: true }],
       // Préfère les template string que les concaténations
-      'prefer-template': 'error'
+      'prefer-template': 'error',
+      'comma-spacing': ["error", { "before": false, "after": true }],
   }
 })
 

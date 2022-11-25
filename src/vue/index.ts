@@ -5,7 +5,7 @@ export = defineConfig({
   extends: [
      'plugin:vue/vue3-recommended'
   ],
-  parser: 'vue-eslint-parser',
+  // parser: 'vue-eslint-parser',
   rules: {
     ...common.commonVueConfig.rules,
     'vue/no-spaces-around-equal-signs-in-attribute': 'error',

@@ -1,14 +1,17 @@
 import { defineConfig } from 'eslint-define-config'
 
 export = defineConfig({
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-  ],
-  plugins: ['@typescript-eslint'],
+  // extends: [
+    // 'plugin:@typescript-eslint/recommended',
+  // ],
+
+  // plugins: ['@typescript-eslint'],
+
   // Utilisation de parserOptions.parser pour être compatible avec eslint-plugin-vue
-  parserOptions: {
-    parser: '@typescript-eslint/parser'
-  },
+  // parserOptions: {
+  //   parser: '@typescript-eslint/parser'
+  // },
+
   rules: {
     '@typescript-eslint/no-unused-vars': ['error', { args: 'all', argsIgnorePattern: '^_' }],
 

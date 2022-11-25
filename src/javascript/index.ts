@@ -10,7 +10,7 @@ export = defineConfig({
     curly: ['error', 'all'], // {} toujours requises
     'quote-props': 'off', // controle des quotes autour des propriétés des objets
     'no-trailing-spaces': 'error', // pas d'espaces vides
-    semi: ['error', 'never'], // pas de ";" à la fin des lignes
+    semi: ['error', 'never'], // pas de ';' à la fin des lignes
     'object-shorthand': ['error', 'always'],
     // les const, c'est la vie
     'prefer-const': [

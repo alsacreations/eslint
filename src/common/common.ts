@@ -23,7 +23,7 @@ const commonConfig = defineConfig({
       'key-spacing': ['error', { afterColon: true }],
       // Préfère les template string que les concaténations
       'prefer-template': 'error',
-      'comma-spacing': ["error", { "before": false, "after": true }],
+      'comma-spacing': ['error', { 'before': false, 'after': true }],
   }
 })
 

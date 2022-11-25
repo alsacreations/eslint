@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "useDefineForClassFields": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "CommonJS",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "isolatedModules": true,
+    "declaration": true,
+    "outDir": "./dist"
+  },
+  "include": [
+    "./src",
+    "./types"
+  ],
+  "exclude": [
+    "./dist"
+  ]
+}

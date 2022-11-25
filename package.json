@@ -1,0 +1,61 @@
+{
+  "name": "eslint-config-alsacreations",
+  "version": "0.0.1",
+  "description": "Configuration eslint d'Alsacréations",
+  "packageManager": "pnpm@7.16.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alsacreations/eslint"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./javascript": {
+      "require": "./dist/javascript/index.js",
+      "types": "./dist/javascript/index.d.ts"
+    },
+    "./typescript": {
+      "require": "./dist/typescript/index.js",
+      "types": "./dist/typescript/index.d.ts"
+    },
+    "./nuxt": {
+      "require": "./dist/nuxt/index.js",
+      "types": "./dist/nuxt/index.d.ts"
+    },
+    "./vue": {
+      "require": "./dist/vue/index.js",
+      "types": "./dist/vue/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc --project ./tsconfig.json",
+    "release": "bumpp package.json --commit --push --tag"
+  },
+  "files": [
+    "dist",
+    "tsconfig.json"
+  ],
+  "keywords": [],
+  "author": "Alsacréations",
+  "license": "ISC",
+  "peerDependencies": {
+    "eslint": "^8.28.0"
+  },
+  "devDependencies": {
+    "bumpp": "^8.2.1",
+    "eslint": "^8.28.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@nuxtjs/eslint-config": "^12.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "eslint-define-config": "^1.12.0",
+    "eslint-plugin-vue": "^9.8.0"
+  }
+}

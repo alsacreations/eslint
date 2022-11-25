@@ -2,7 +2,8 @@ import { defineConfig } from 'eslint-define-config'
 
 export = defineConfig({
   extends: [
-    '@nuxtjs'
+    '@nuxtjs',
+    './../vue'
   ],
   rules: {}
 })

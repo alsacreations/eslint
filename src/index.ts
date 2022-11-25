@@ -5,7 +5,6 @@ export = defineConfig({
     './javascript',
     './typescript',
     './nuxt',
-    './vue',
-    './common'
+    './vue'
   ]
 })

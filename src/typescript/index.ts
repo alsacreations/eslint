@@ -33,20 +33,7 @@ export = defineConfig({
     '@typescript-eslint/no-unsafe-declaration-merging': 'error',
     '@typescript-eslint/prefer-for-of': 'error',
     '@typescript-eslint/prefer-function-type': 'error',
-    '@typescript-eslint/prefer-includes': 'error',
-    '@typescript-eslint/prefer-ts-expect-error': 'error',
-    '@typescript-eslint/promise-function-async': 'error',
-    '@typescript-eslint/strict-boolean-expressions': 'error',
-    '@typescript-eslint/type-annotation-spacing': 'error',
-
-    'brace-style': 'off',
-    '@typescript-eslint/brace-style': 'error',
-
-    'comma-dangle': 'off',
-    '@typescript-eslint/comma-dangle': ['error', 'never'],
-
-    'comma-spacing': 'off',
-    '@typescript-eslint/comma-spacing': ['error', { 'before': false, 'after': true }],
+    '@typescript-eslint/prefer-ts-expect-error': 'error'
   },
   'overrides': [
     {

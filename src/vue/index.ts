@@ -25,32 +25,6 @@ export = defineConfig({
     ],
     'vue/attribute-hyphenation': ['error', 'never'],
     'vue/component-definition-name-casing': 'error',
-    'vue/html-self-closing': [
-      'error',
-      {
-        html: {
-          void: 'never',
-          normal: 'never',
-          component: 'never'
-        }
-      }
-    ],
-    'vue/html-indent': [
-      'error',
-      2,
-      {
-        attribute: 1,
-        baseIndent: 1,
-        alignAttributesVertically: false
-      }
-    ],
-    'vue/max-attributes-per-line': [
-      'error',
-      {
-        singleline: { max: 1 },
-        multiline: { max: 1 }
-      }
-    ],
     'vue/attributes-order': [
       'error',
       {

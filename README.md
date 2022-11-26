@@ -26,36 +26,102 @@ Ce repo contient la paquet npm correspondant à la configuration estlint de l'[a
 
 ## Installation
 
-```sh
-# npm
-npm i -D alsacreations-eslint-plugin
-# yarn
-yarn add -D alsacreations-eslint-plugin
-# pnpm (recommandé)
-pnpm add -D alsacreations-eslint-plugin
-```
+<details>
+  <summary>JavaScript et TypeScript (sans framework)</summary>
+  
+### Base
 
-## Utilisation
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D alsacreations-eslint-plugin @rushstack/eslint-patch eslint
+  ```
 
-```js
-// .eslintrc.js ou fichier de configuration équivalent
-// https://eslint.org/docs/latest/user-guide/configuring/configuration-files
+### Avec TS (optionnel)
 
-module.exports = {
-  // ...,
-  extends: [
-    'eslint:recommended',
-    'alsacreations', // Utilisation de toutes les configurations
-    'alsacreations/javascript', // Utilisation de la configuration JavaScript
-    'alsacreations/vue', // Utilisation de la configuration Vue
-    'alsacreations/typescript', // Utilisation de la configuration TypeScript
-    'alsacreations/nuxt', // Utilisation de la configuration Nuxt
-  ],
-  rules: {
-    // Modifier les règles au besoin
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D typescript
+  ```
+
+### Avec Prettier (optionnel)
+
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D prettier eslint-plugin-prettier
+  ```
+
+</details>
+
+<details>
+  <summary>Vue (sans Nuxt)</summary>
+  
+### Base
+
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D alsacreations-eslint-plugin @rushstack/eslint-patch eslint-plugin-vue eslint
+  ```
+
+### Avec TS (optionnel)
+
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D @vue/eslint-config-typescript typescript
+  ```
+
+### Avec Prettier (optionnel)
+
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D prettier @vue/eslint-config-prettier
+  ```
+
+</details>
+
+<details>
+  <summary>Nuxt</summary>
+  
+### Base
+
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D alsacreations-eslint-plugin @rushstack/eslint-patch @nuxtjs/eslint-config eslint
+  ```
+
+### Avec TS (optionnel)
+
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D @nuxtjs/eslint-config-typescript && npm uninstall @nuxtjs/eslint-config
+  ```
+
+### Avec Prettier (optionnel)
+
+  ```sh
+  # npm, yarn, pnpm
+  npm i -D prettier @vue/eslint-config-prettier
+  ```
+
+</details>
+
+## Configuration
+
+  ```js
+  require('@rushstack/eslint-patch/modern-module-resolution')
+
+  /* eslint-env node */
+  module.exports = {
+    root: true,
+    extends: [
+      'eslint:recommended',
+      // Gère l'ordre de tous les plugins installés
+      'alsacreations'
+    ],
+    parserOptions: {
+      ecmaVersion: 'latest'
+    }
   }
-}
-```
+  ```
 
 ## Développement
 
@@ -68,8 +134,7 @@ module.exports = {
 1. Créer un sous-dossier `src/le-nom-configuration`
 2. Reprendre l'exemple des autres configurations
 3. Ajouter votre nouvelle configuration dans le fichier `src/index.ts`
-4. Modifier la clé `exports` du fichier `package.json` en reprenant les autres exemples.
-5. Créer une pull request vers la branche `main` de ce repo.
+4. Créer une pull request vers la branche `main` de ce repo.
 
 ### Conventions git
 

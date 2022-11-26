@@ -1,4 +1,4 @@
-Ce repo contient la paquet npm correspondant à la configuration estlint de l'[agence Alsacréations](https://www.alsacreations.fr/).
+Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[agence Alsacréations](https://www.alsacreations.fr/).
 
 ## Ce qui est inclus
 
@@ -8,7 +8,7 @@ Ce repo contient la paquet npm correspondant à la configuration estlint de l'[a
 
 ### ⚙️ Configuration Javascript
 
-- Utilisation des règles eslint de base (sans plugin)
+- Utilisation des règles ESLint de base (sans plugin)
 
 ### 💪 Configuration TypeScript
 

@@ -1,4 +1,5 @@
 import { defineConfig } from 'eslint-define-config'
+import { Vue } from '../utils'
 
 /**
  * Règles communes pour Vue et JS
@@ -17,14 +18,18 @@ const commonConfig = defineConfig({
  * @example `vue/space-in-parens`
  */
 const commonVueConfig = defineConfig({
-  rules: Object.fromEntries(
-    Object
-      .entries(commonConfig.rules as Record<string, any>)
-      .map(([key, value]) => [`vue/${key}`, value])
-  )
+  rules: Vue
+    ? Object.fromEntries(
+      Object
+        .entries(commonConfig.rules as Record<string, any>)
+        .map(([key, value]) => [`vue/${key}`, value])
+    )
+    : {}
 })
 
-export = {
-  commonConfig,
-  commonVueConfig
-}
+export = defineConfig({
+  rules: {
+    ...commonConfig.rules,
+    ...commonVueConfig.rules
+  }
+})

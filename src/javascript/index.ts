@@ -1,9 +1,10 @@
 import { defineConfig } from 'eslint-define-config'
-import common = require('./../common/common')
 
 export = defineConfig({
+  extends: [
+    '../common'
+  ],
   rules: {
-    ...common.commonConfig.rules,
     curly: ['error', 'all'], // {} toujours requises
     'no-trailing-spaces': 'error', // pas d'espaces vides
     'object-shorthand': ['error', 'always'],

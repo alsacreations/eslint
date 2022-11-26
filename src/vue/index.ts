@@ -1,13 +1,30 @@
 import { defineConfig } from 'eslint-define-config'
-import common = require('./../common/common')
+import { TS, Nuxt, Prettier, VueEslintTypescript, VueEslintPrettier } from '../utils'
+import { removeUnusedItems } from '../utils'
 
 export = defineConfig({
-  extends: [
-     'plugin:vue/vue3-recommended'
+  overrides: [
+    {
+      files: ['*.vue'],
+      rules: {
+        'no-unused-vars': 'off',
+        'no-undef': 'off',
+        ...(
+          TS
+            ? { '@typescript-eslint/no-unused-vars': 'off' }
+            : {}
+        ),
+      },
+    },
   ],
-  // parser: 'vue-eslint-parser',
+
+  extends: removeUnusedItems([
+    'plugin:vue/vue3-recommended',
+    '../common',
+    TS && !Nuxt && VueEslintTypescript ? '@vue/eslint-config-typescript' : ''
+ ]),
+
   rules: {
-    ...common.commonVueConfig.rules,
     'vue/no-spaces-around-equal-signs-in-attribute': 'error',
     'vue/this-in-template': ['error', 'never'],
     'vue/v-on-style': ['error', 'longform'],

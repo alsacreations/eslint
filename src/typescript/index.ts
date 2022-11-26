@@ -1,11 +1,20 @@
 import { defineConfig } from 'eslint-define-config'
+import { Nuxt, removeUnusedItems, Vue } from '../utils'
 
 export = defineConfig({
-  // extends: [
-  //   'plugin:@typescript-eslint/recommended',
-  // ],
+  extends: removeUnusedItems([
+    // Nuxt et Vue avec le plugin @nuxtjs/eslint-config-typescript et @vue/eslint-config-typescript s'occupe de ça
+    Nuxt || Vue
+      ? ''
+      : 'plugin:@typescript-eslint/recommended',
+  ]),
 
-  // plugins: ['@typescript-eslint'],
+  plugins: removeUnusedItems([
+    // Nuxt et Vue avec le plugin @nuxtjs/eslint-config-typescript et @vue/eslint-config-typescript s'occupe de ça
+    Nuxt || Vue
+      ? ''
+      : '@typescript-eslint'
+  ]),
 
   // Utilisation de parserOptions.parser pour être compatible avec eslint-plugin-vue
   // parserOptions: {
@@ -29,7 +38,6 @@ export = defineConfig({
       prefer: 'type-imports',
       ['fixStyle' as any]: 'separate-type-imports'
     }],
-    '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/method-signature-style': ['error', 'property'],
     '@typescript-eslint/no-duplicate-enum-values': 'error',
     '@typescript-eslint/no-invalid-void-type': 'error',

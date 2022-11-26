@@ -1,10 +1,15 @@
 import { defineConfig } from 'eslint-define-config'
+import { TS, Nuxt, Vue, Prettier } from './utils'
+import { removeUnusedItems } from './utils'
 
 export = defineConfig({
-  extends: [
+  extends: removeUnusedItems([
     './javascript',
-    './typescript',
-    './nuxt',
-    './vue'
-  ]
+    Nuxt ? './nuxt' : '',
+    Vue && !Nuxt ?'./vue' : '',
+    TS ? './typescript' : '',
+
+    // Devrait toujours être dernier
+    Prettier ? './prettier' : ''
+  ])
 })

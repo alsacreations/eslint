@@ -33,7 +33,7 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D alsacreations-eslint-plugin @rushstack/eslint-patch eslint
+  npm i -D eslint-config-alsacreations @rushstack/eslint-patch eslint
   ```
 
 ### Avec TS (optionnel)
@@ -59,7 +59,7 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D alsacreations-eslint-plugin @rushstack/eslint-patch eslint-plugin-vue eslint
+  npm i -D eslint-config-alsacreations @rushstack/eslint-patch eslint-plugin-vue eslint
   ```
 
 ### Avec TS (optionnel)
@@ -85,7 +85,7 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D alsacreations-eslint-plugin @rushstack/eslint-patch @nuxtjs/eslint-config eslint
+  npm i -D eslint-config-alsacreations @rushstack/eslint-patch @nuxtjs/eslint-config eslint
   ```
 
 ### Avec TS (optionnel)

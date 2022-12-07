@@ -33,21 +33,21 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D eslint-config-alsacreations @rushstack/eslint-patch eslint
+  npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch eslint
   ```
 
 ### Avec TS (optionnel)
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D typescript
+  npm i --save-dev typescript
   ```
 
 ### Avec Prettier (optionnel)
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D prettier eslint-plugin-prettier
+  npm i --save-dev prettier eslint-plugin-prettier
   ```
 
 </details>
@@ -59,21 +59,21 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D eslint-config-alsacreations @rushstack/eslint-patch eslint-plugin-vue eslint
+  npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch eslint-plugin-vue eslint
   ```
 
 ### Avec TS (optionnel)
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D @vue/eslint-config-typescript typescript
+  npm i --save-dev @vue/eslint-config-typescript typescript
   ```
 
 ### Avec Prettier (optionnel)
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D prettier @vue/eslint-config-prettier
+  npm i --save-dev prettier @vue/eslint-config-prettier
   ```
 
 </details>
@@ -85,21 +85,21 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D eslint-config-alsacreations @rushstack/eslint-patch @nuxtjs/eslint-config eslint
+  npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch @nuxtjs/eslint-config eslint
   ```
 
 ### Avec TS (optionnel)
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D @nuxtjs/eslint-config-typescript && npm uninstall @nuxtjs/eslint-config
+  npm i --save-dev @nuxtjs/eslint-config-typescript && npm uninstall @nuxtjs/eslint-config
   ```
 
 ### Avec Prettier (optionnel)
 
   ```sh
   # npm, yarn, pnpm
-  npm i -D prettier @vue/eslint-config-prettier
+  npm i --save-dev prettier @vue/eslint-config-prettier
   ```
 
 </details>

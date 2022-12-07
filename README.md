@@ -1,4 +1,4 @@
-Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[agence Alsacréations](https://www.alsacreations.fr/).
+Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[agence Alsacréations](https://www.alsacreations.fr/).
 
 ## Ce qui est inclus
 
@@ -107,6 +107,8 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 ## Configuration
 
   ```js
+  // .eslintrc.js ou équivalent
+
   require('@rushstack/eslint-patch/modern-module-resolution')
 
   /* eslint-env node */
@@ -127,15 +129,15 @@ Ce repo contient la paquet npm correspondant à la configuration ESLint de l'[ag
 
 1. Forker le projet depuis ce repo.
 2. Installer [pnpm](https://pnpm.io/installation) si vous ne l'avez pas déjà.
-3. Installer les dépendances dans le projet `pnpm install`
+3. Installer les dépendances dans le projet `pnpm install`.
 
 ### Créer une nouvelle configuration
 
-1. Créer un sous-dossier `src/le-nom-configuration`
-2. Reprendre l'exemple des autres configurations
-3. Ajouter votre nouvelle configuration dans le fichier `src/index.ts`
+1. Créer un sous-dossier `src/le-nom-configuration`.
+2. Reprendre l'exemple des autres configurations.
+3. Ajouter votre nouvelle configuration dans le fichier `src/index.ts`.
 4. Créer une pull request vers la branche `main` de ce repo.
 
 ### Conventions git
 
-Utilisation de [conventionnal commits](https://www.conventionalcommits.org/en/v1.0.0/). Depuis ces commits, le changelog de chaque release est automatisé.
+Utilisation de [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Depuis ces commits, le changelog de chaque release est automatisé.

@@ -21,7 +21,7 @@ export = defineConfig({
   extends: removeUnusedItems([
     'plugin:vue/vue3-recommended',
     '../common',
-    TS && !Nuxt && VueEslintTypescript ? '@vue/eslint-config-typescript' : ''
+    TS && !Nuxt && VueEslintTypescript ? '@vue/eslint-config-typescript/recommended' : ''
  ]),
 
   rules: {

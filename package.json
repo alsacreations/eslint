@@ -17,7 +17,8 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc --project ./tsconfig.json",
-    "release": "bumpp package.json --commit --push --tag"
+    "release": "bumpp package.json --commit --push --tag",
+    "prepare": "husky install"
   },
   "files": [
     "dist",
@@ -30,8 +31,11 @@
     "eslint": "^8.28.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
     "bumpp": "^8.2.1",
     "eslint": "^8.28.0",
+    "husky": "^8.0.2",
     "rimraf": "^3.0.2",
     "typescript": "^4.9.3"
   },

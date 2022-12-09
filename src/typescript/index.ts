@@ -44,7 +44,8 @@ export = defineConfig({
     '@typescript-eslint/no-unsafe-declaration-merging': 'error',
     '@typescript-eslint/prefer-for-of': 'error',
     '@typescript-eslint/prefer-function-type': 'error',
-    '@typescript-eslint/prefer-ts-expect-error': 'error'
+    '@typescript-eslint/prefer-ts-expect-error': 'error',
+    '@typescript-eslint/no-explicit-any': 'error'
   },
   'overrides': [
     {

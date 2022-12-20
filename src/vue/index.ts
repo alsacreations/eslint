@@ -42,25 +42,6 @@ export = defineConfig({
     ],
     'vue/attribute-hyphenation': ['error', 'never'],
     'vue/component-definition-name-casing': 'error',
-    'vue/attributes-order': [
-      'error',
-      {
-        order: [
-          'CONDITIONALS',
-          'LIST_RENDERING',
-          'OTHER_DIRECTIVES',
-          'GLOBAL',
-          'UNIQUE',
-          'DEFINITION',
-          'TWO_WAY_BINDING',
-          'OTHER_ATTR',
-          'CONTENT',
-          'RENDER_MODIFIERS',
-          'EVENTS'
-        ],
-        alphabetical: false
-      }
-    ],
     'vue/mustache-interpolation-spacing': ['error', 'always'],
     'vue/no-multi-spaces': ['error']
   }

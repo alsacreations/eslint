@@ -43,6 +43,7 @@ export = defineConfig({
     'vue/attribute-hyphenation': ['error', 'never'],
     'vue/component-definition-name-casing': 'error',
     'vue/mustache-interpolation-spacing': ['error', 'always'],
+    'vue/no-multi-spaces': ['error'],
     'vue/v-for-delimiter-style': ['error', 'in'],
     'vue/no-v-text': ['error'],
     'vue/no-unused-properties': ['error', {

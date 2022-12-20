@@ -29,7 +29,7 @@ export = defineConfig({
     'vue/this-in-template': ['error', 'never'],
     'vue/v-on-style': ['error', 'longform'],
     'vue/v-bind-style': ['error', 'shorthand'],
-    'vue/custom-event-name-casing': 'error',
+    'vue/custom-event-name-casing': ['error', 'kebab-case'],
     'vue/require-name-property': 'error',
     'vue/prop-name-casing': ['error', 'camelCase'],
     'vue/v-slot-style': [

@@ -45,5 +45,9 @@ export = defineConfig({
     'vue/mustache-interpolation-spacing': ['error', 'always'],
     'vue/v-for-delimiter-style': ['error', 'in'],
     'vue/no-v-text': ['error'],
+    'vue/no-unused-properties': ['error', {
+      groups: ['props', 'data', 'computed', 'methods', 'setup'],
+      deepData: false
+    }],
   }
 })

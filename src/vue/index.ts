@@ -50,5 +50,6 @@ export = defineConfig({
       deepData: false
     }],
     'vue/define-macros-order': ['error'],
+    'vue/define-props-declaration': ['error', 'type-based']
   }
 })

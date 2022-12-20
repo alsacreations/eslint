@@ -44,5 +44,6 @@ export = defineConfig({
     'vue/component-definition-name-casing': 'error',
     'vue/mustache-interpolation-spacing': ['error', 'always'],
     'vue/v-for-delimiter-style': ['error', 'in'],
+    'vue/no-v-text': ['error'],
   }
 })

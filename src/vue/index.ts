@@ -49,5 +49,6 @@ export = defineConfig({
       groups: ['props', 'data', 'computed', 'methods', 'setup'],
       deepData: false
     }],
+    'vue/define-macros-order': ['error'],
   }
 })

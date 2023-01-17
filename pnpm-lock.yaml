@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@commitlint/cli': ^17.3.0
   '@commitlint/config-conventional': ^17.3.0
+  '@types/node': ^18.11.18
   '@typescript-eslint/eslint-plugin': ^5.44.0
   '@typescript-eslint/parser': ^5.44.0
   bumpp: ^8.2.1
@@ -22,6 +23,7 @@ dependencies:
 devDependencies:
   '@commitlint/cli': 17.3.0
   '@commitlint/config-conventional': 17.3.0
+  '@types/node': 18.11.18
   bumpp: 8.2.1
   eslint: 8.28.0
   husky: 8.0.2
@@ -145,7 +147,7 @@ packages:
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
-      ts-node: 10.9.1_fmwzzwah366d2apstfxajuvcwy
+      ts-node: 10.9.1_76bvzwqatfihmnr5dx42jk5azq
       typescript: 4.9.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -329,6 +331,10 @@ packages:
 
   /@types/node/14.18.34:
     resolution: {integrity: sha512-hcU9AIQVHmPnmjRK+XUUYlILlr9pQrsqSrwov/JK1pnf3GTQowVBhx54FbvM0AU/VXGH4i3+vgXS5EguR7fysA==}
+    dev: true
+
+  /@types/node/18.11.18:
+    resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
     dev: true
 
   /@types/normalize-package-data/2.4.1:
@@ -702,7 +708,7 @@ packages:
     dependencies:
       '@types/node': 14.18.34
       cosmiconfig: 7.1.0
-      ts-node: 10.9.1_fmwzzwah366d2apstfxajuvcwy
+      ts-node: 10.9.1_76bvzwqatfihmnr5dx42jk5azq
       typescript: 4.9.3
     dev: true
 
@@ -1849,7 +1855,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /ts-node/10.9.1_fmwzzwah366d2apstfxajuvcwy:
+  /ts-node/10.9.1_76bvzwqatfihmnr5dx42jk5azq:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -1868,7 +1874,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 14.18.34
+      '@types/node': 18.11.18
       acorn: 8.8.1
       acorn-walk: 8.2.0
       arg: 4.1.3

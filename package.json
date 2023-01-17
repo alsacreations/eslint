@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-alsacreations",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Configuration eslint d'Alsacréations",
   "packageManager": "pnpm@7.16.0",
   "main": "./dist/index.js",

@@ -32,7 +32,7 @@ export function removeUnusedItems (items: string[]) {
 export const TS = packageExists('typescript')
 export const Nuxt = packageExists('nuxt')
 export const Vue = packageExists('vue')
-export const Prettier = packageExists('prettier')
+export const Prettier = packageExists('prettier') && isPackageListed('prettier')
 export const EslintPluginPrettier = packageExists('eslint-plugin-prettier')
 export const VueEslintTypescript = packageExists('@vue/eslint-config-typescript')
 export const VueEslintPrettier = packageExists('@vue/eslint-config-prettier')

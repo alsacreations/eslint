@@ -106,24 +106,48 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
 
 ## Configuration
 
-  ```js
-  // .eslintrc.js ou équivalent
+```js
+// .eslintrc.js ou équivalent
 
-  require('@rushstack/eslint-patch/modern-module-resolution')
+require('@rushstack/eslint-patch/modern-module-resolution')
 
-  /* eslint-env node */
-  module.exports = {
-    root: true,
-    extends: [
-      'eslint:recommended',
-      // Gère l'ordre de tous les plugins installés
-      'alsacreations'
-    ],
-    parserOptions: {
-      ecmaVersion: 'latest'
-    }
+/* eslint-env node */
+module.exports = {
+  root: true,
+  extends: [
+    'eslint:recommended',
+    // Gère l'ordre de tous les plugins installés
+    'alsacreations'
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest'
   }
-  ```
+}
+```
+
+## Configuration avancée
+
+```js
+// .eslintrc.js ou équivalent
+
+require('@rushstack/eslint-patch/modern-module-resolution')
+const createConfig = require('eslint-config-alsacreations/createConfig')
+
+/* eslint-env node */
+module.exports = {
+  root: true,
+  extends: [
+    'eslint:recommended',
+    createConfig({
+      // Il est possible de spécifier les presets à ignorer
+      ignore: ['vue', 'nuxt']
+    })
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest'
+  }
+}
+```
 
 ## Développement
 

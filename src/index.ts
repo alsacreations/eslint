@@ -1,15 +1,21 @@
-import { defineConfig } from 'eslint-define-config'
-import { TS, Nuxt, Vue, Prettier } from './utils'
-import { removeUnusedItems } from './utils'
+import { defineConfig as defineEslintConfig } from 'eslint-define-config'
+import { createConfig } from './plugin'
 
-export = defineConfig({
-  extends: removeUnusedItems([
-    './javascript',
-    Nuxt ? './nuxt' : '',
-    Vue && !Nuxt ?'./vue' : '',
-    TS ? './typescript' : '',
-
-    // Devrait toujours être dernier
-    Prettier ? './prettier' : ''
-  ])
+/**
+ * Config par défaut qui sera utilisée si eslint est configuré
+ * de cette façon.
+ * 
+ * @example
+ * ```
+ * {
+ *   extends: [
+ *     'alsacreations'
+ *   ]
+ * }
+ * ```
+ */
+export = defineEslintConfig({
+  extends: [
+    createConfig()
+  ]
 })

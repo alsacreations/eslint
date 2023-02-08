@@ -13,6 +13,10 @@
     ".": {
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./createConfig": {
+      "require": "./dist/createConfig.js",
+      "types": "./dist/createConfig.d.ts"
     }
   },
   "scripts": {

@@ -1,6 +1,7 @@
 import { isPackageExists as packageExists, PackageInfo } from 'local-pkg'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { PluginOptions } from './plugin'
 
 /**
  * Permet de savoir si un certain package est listé
@@ -29,10 +30,25 @@ export function removeUnusedItems (items: string[]) {
   return items.filter((item) => item !== '')
 }
 
-export const TS = packageExists('typescript')
-export const Nuxt = packageExists('nuxt')
-export const Vue = packageExists('vue')
-export const Prettier = packageExists('prettier') && isPackageListed('prettier')
-export const EslintPluginPrettier = packageExists('eslint-plugin-prettier')
-export const VueEslintTypescript = packageExists('@vue/eslint-config-typescript')
-export const VueEslintPrettier = packageExists('@vue/eslint-config-prettier')
+export let TS = false
+export let Nuxt = false
+export let Vue = false
+export let Prettier = false
+export let EslintPluginPrettier = packageExists('eslint-plugin-prettier')
+export let VueEslintTypescript = packageExists('@vue/eslint-config-typescript')
+export let VueEslintPrettier = packageExists('@vue/eslint-config-prettier')
+
+/**
+ * Instancie les utilités définissant les paquets installés
+ * @param ignored Liste de paquets ignorés
+ */
+export function initUtils(ignored: Required<PluginOptions>['ignore']) {
+  const isIgnored = (pkg: typeof ignored[number]) => (
+    !!ignored.find(p => p === pkg)
+  )
+
+  TS = packageExists('typescript') && !isIgnored('typescript')
+  Nuxt = packageExists('nuxt') && !isIgnored('nuxt') && !isIgnored('vue')
+  Vue = packageExists('vue') && !isIgnored('vue')
+  Prettier = packageExists('prettier') && isPackageListed('prettier') && !isIgnored('prettier')
+}

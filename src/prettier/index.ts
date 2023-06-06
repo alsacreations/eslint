@@ -8,8 +8,5 @@ export = defineConfig({
     Prettier && Vue && VueEslintPrettier ? '@vue/eslint-config-prettier/skip-formatting' : '',
     // Gestion de prettier sans vue (ou nuxt), si vue est présent, on utilise le plugin @vue
     Prettier && !Vue && EslintConfigPrettier ? 'prettier' : '',
-  ]),
-  rules: {
-    'prettier/prettier': 'error'
-  }
+  ])
 })

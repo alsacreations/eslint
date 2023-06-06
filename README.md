@@ -47,7 +47,7 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
 
   ```sh
   # npm, yarn, pnpm
-  npm i --save-dev prettier eslint-plugin-prettier
+  npm i --save-dev prettier eslint-config-prettier
   ```
 
 </details>

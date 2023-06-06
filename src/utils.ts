@@ -34,7 +34,7 @@ export let TS = false
 export let Nuxt = false
 export let Vue = false
 export let Prettier = false
-export let EslintPluginPrettier = packageExists('eslint-plugin-prettier')
+export let EslintConfigPrettier = packageExists('eslint-config-prettier')
 export let VueEslintTypescript = packageExists('@vue/eslint-config-typescript')
 export let VueEslintPrettier = packageExists('@vue/eslint-config-prettier')
 

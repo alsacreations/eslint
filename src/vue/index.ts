@@ -2,8 +2,6 @@ import { defineConfig } from 'eslint-define-config'
 import { removeUnusedItems } from '../utils'
 import commonConfig = require('../common')
 
-console.log(commonConfig)
-
 /**
  * Pour Vue, on prefix par `vue/`
  * @example `vue/space-in-parens`
@@ -15,8 +13,6 @@ const commonVueConfig = defineConfig({
     ),
   ),
 })
-
-console.log(commonVueConfig)
 
 function getConfig() {
   return defineConfig({

@@ -1,12 +1,27 @@
 import { defineConfig } from 'eslint-define-config'
-import { TS } from '../utils'
+import { Nuxt, Vue } from '../utils'
+import { consola } from 'consola'
 
-export = defineConfig({
-  extends: [
-    TS
-      ? '@nuxtjs/eslint-config-typescript'
-      : '@nuxtjs/eslint-config',
-    './../vue'
-  ],
-  rules: {}
-})
+function getConfig() {
+  if (!Nuxt) {
+    consola.warn(
+      `'eslint-config-alsacreations/nuxt' config wanted but 'nuxt' not installed. Skipping.`,
+    )
+
+    return defineConfig({})
+  }
+
+  if (!Vue) {
+    consola.warn(
+      `'eslint-config-alsacreations/nuxt' config wanted but 'vue' not installed. Skipping.`,
+    )
+
+    return defineConfig({})
+  }
+
+  return defineConfig({
+    extends: ['@nuxtjs/eslint-config', './../vue'],
+  })
+}
+
+export = getConfig()

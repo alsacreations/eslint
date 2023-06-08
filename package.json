@@ -10,13 +10,37 @@
     "url": "https://github.com/alsacreations/eslint"
   },
   "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+    "./javascript": {
+      "require": "./dist/javascript/index.js",
+      "types": "./dist/javascript/index.d.ts"
     },
-    "./createConfig": {
-      "require": "./dist/createConfig.js",
-      "types": "./dist/createConfig.d.ts"
+    "./nuxt": {
+      "require": "./dist/nuxt/index.js",
+      "types": "./dist/nuxt/index.d.ts"
+    },
+    "./nuxt-typescript": {
+      "require": "./dist/nuxt-typescript/index.js",
+      "types": "./dist/nuxt-typescript/index.d.ts"
+    },
+    "./prettier": {
+      "require": "./dist/prettier/index.js",
+      "types": "./dist/prettier/index.d.ts"
+    },
+    "./prettier-vue": {
+      "require": "./dist/prettier-vue/index.js",
+      "types": "./dist/prettier-vue/index.d.ts"
+    },
+    "./typescript": {
+      "require": "./dist/typescript/index.js",
+      "types": "./dist/typescript/index.d.ts"
+    },
+    "./vue": {
+      "require": "./dist/vue/index.js",
+      "types": "./dist/vue/index.d.ts"
+    },
+    "./vue-typescript": {
+      "require": "./dist/vue/index.js",
+      "types": "./dist/vue/index.d.ts"
     }
   },
   "scripts": {
@@ -41,13 +65,15 @@
     "bumpp": "^8.2.1",
     "eslint": "^8.33.0",
     "husky": "^8.0.3",
+    "prettier": "^2.8.8",
     "rimraf": "^4.1.2",
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.51.0",
-    "eslint-define-config": "^1.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "consola": "^3.1.0",
+    "eslint-define-config": "^1.12.0",
     "local-pkg": "^0.4.3"
   }
 }

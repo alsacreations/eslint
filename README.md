@@ -31,24 +31,24 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
   
 ### Base
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch eslint
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch eslint
+```
 
 ### Avec TS (optionnel)
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev typescript
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev typescript
+```
 
 ### Avec Prettier (optionnel)
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev prettier eslint-config-prettier
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev prettier eslint-config-prettier
+```
 
 </details>
 
@@ -57,24 +57,24 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
   
 ### Base
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch eslint-plugin-vue eslint
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch eslint-plugin-vue eslint
+```
 
 ### Avec TS (optionnel)
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev @vue/eslint-config-typescript typescript
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev @vue/eslint-config-typescript typescript
+```
 
 ### Avec Prettier (optionnel)
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev prettier @vue/eslint-config-prettier
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev prettier @vue/eslint-config-prettier
+```
 
 </details>
 
@@ -83,24 +83,24 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
   
 ### Base
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch @nuxtjs/eslint-config eslint
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev eslint-config-alsacreations @rushstack/eslint-patch @nuxtjs/eslint-config eslint
+```
 
 ### Avec TS (optionnel)
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev @nuxtjs/eslint-config-typescript && npm uninstall @nuxtjs/eslint-config
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev @nuxtjs/eslint-config-typescript && npm uninstall @nuxtjs/eslint-config
+```
 
 ### Avec Prettier (optionnel)
 
-  ```sh
-  # npm, yarn, pnpm
-  npm i --save-dev prettier @vue/eslint-config-prettier
-  ```
+```sh
+# npm, yarn, pnpm
+npm i --save-dev prettier @vue/eslint-config-prettier
+```
 
 </details>
 
@@ -116,36 +116,28 @@ module.exports = {
   root: true,
   extends: [
     'eslint:recommended',
-    // Gère l'ordre de tous les plugins installés
-    'alsacreations'
+
+    'alsacreations/javascript',
+
+    // /!\ Ne choisir que l'un ou l'autre
+    'alsacreations/nuxt', // Nuxt tout seul
+    'alsacreations/vue', // Vue tout seul
+
+    // /!\ Ne choisir que l'un ou l'autre
+    // /!\ Ne pas choisir 'alsacreations/nuxt' ni 'alsacreations/vue'
+    'alsacreations/nuxt-typescript', // Nuxt + TS
+    'alsacreations/vue-typescript', // Vue + TS
+
+    // /!\ Ne pas choisir si 'alsacreations/nuxt-typescript' ou 'alsacreations/vue-typescript' sont utilisés
+    'alsacreations/typescript', // TS tout seul
+
+    // /!\ Ne choisir que l'un ou l'autre
+    'alsacreations/prettier', // Prettier tout seul
+    'alsacreations/prettier-vue', // Vue + Prettier
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
-  }
-}
-```
-
-## Configuration avancée
-
-```js
-// .eslintrc.js ou équivalent
-
-require('@rushstack/eslint-patch/modern-module-resolution')
-const createConfig = require('eslint-config-alsacreations/createConfig')
-
-/* eslint-env node */
-module.exports = {
-  root: true,
-  extends: [
-    'eslint:recommended',
-    createConfig({
-      // Il est possible de spécifier les presets à ignorer
-      ignore: ['vue', 'nuxt']
-    })
-  ],
-  parserOptions: {
-    ecmaVersion: 'latest'
-  }
+    ecmaVersion: 'latest',
+  },
 }
 ```
 

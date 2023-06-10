@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 
 import * as t from '@babel/types'
 import traverse from '@babel/traverse'

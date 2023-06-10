@@ -24,14 +24,14 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
 
 - Utilisation du plugin `@nuxtjs/eslint-plugin`
 
-## Automatic installation
+## Installation automatique
 
 ```sh
 # npm, yarn, pnpm
 npx eslint-config-alsacreations@latest init
 ```
 
-## Manual installation
+## Installation manuelle
 
 <details>
   <summary>JavaScript et TypeScript (sans framework)</summary>

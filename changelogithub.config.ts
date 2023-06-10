@@ -19,9 +19,9 @@ const tags = tagsResult.split('\n').reverse()
 
 // prettier-ignore
 const from = isMainRelease
-  ? tags.find((tag) => mainReleaseRegexp.test(tag))
+  ? tags.find((tag) => mainReleaseRegexp.test(tag) && tag !== `v${version}`)
   : isBetaRelease
-    ? tags.find((tag) => mainReleaseRegexp.test(tag) || betaReleaseRegexp.test(tag))
+    ? tags.find((tag) => (mainReleaseRegexp.test(tag) || betaReleaseRegexp.test(tag) && tag !== `v${version}`))
     : undefined
 
 if (!from) {

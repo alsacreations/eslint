@@ -43,10 +43,12 @@
       "types": "./dist/vue-typescript/index.d.ts"
     }
   },
+  "bin": "dist/bin/bin.js",
   "scripts": {
     "build": "rimraf dist && tsc --project ./tsconfig.json",
     "release": "bumpp package.json --commit --push --tag",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "bin-exec": "tsx bin/bin.ts init"
   },
   "files": [
     "dist",
@@ -61,19 +63,38 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
+    "@types/babel__generator": "^7.6.4",
+    "@types/babel__traverse": "^7.20.1",
+    "@types/inquirer": "^9.0.3",
+    "@types/lodash": "^4.14.195",
     "@types/node": "^18.13.0",
+    "@types/prettier": "^2.7.3",
     "bumpp": "^8.2.1",
     "eslint": "^8.33.0",
+    "generator": "link:@types/@babel/generator",
     "husky": "^8.0.3",
     "prettier": "^2.8.8",
     "rimraf": "^4.1.2",
+    "traverse": "link:@types/@babel/traverse",
+    "tsx": "^3.12.7",
+    "type-fest": "^3.11.1",
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@babel/generator": "^7.22.5",
+    "@babel/parser": "^7.22.5",
+    "@babel/traverse": "^7.22.5",
+    "@babel/types": "^7.22.5",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
+    "commander": "^10.0.1",
     "consola": "^3.1.0",
+    "cosmiconfig": "^8.2.0",
     "eslint-define-config": "^1.12.0",
-    "local-pkg": "^0.4.3"
+    "execa": "^7.1.1",
+    "inquirer": "^9.2.7",
+    "local-pkg": "^0.4.3",
+    "lodash": "^4.17.21",
+    "yaml": "^2.3.1"
   }
 }

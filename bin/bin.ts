@@ -48,7 +48,8 @@ program
           eslintConfigPath.endsWith('.yaml') ||
           eslintConfigPath.endsWith('.yml')
         const isJson = eslintConfigPath.endsWith('.json')
-        const isJs = eslintConfigPath.endsWith('.js')
+        const isJs =
+          eslintConfigPath.endsWith('.js') || eslintConfigPath.endsWith('.cjs')
 
         const modifiedConfig = mergeWith(
           isEmpty ? {} : esLintConfig,

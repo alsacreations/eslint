@@ -126,7 +126,7 @@ program
 
       try {
         const execaRes = execaCommand(
-          `npx --package=@antfu/ni ni ${deps.join(' ')}`,
+          `npx --package=@antfu/ni ni --save-dev ${deps.join(' ')}`,
           { env: { FORCE_COLOR: 'true' } },
         )
 

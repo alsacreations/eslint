@@ -34,7 +34,7 @@ jobs:
       - name: Builds
         run: pnpm build
 
-      - run: npx changelogithub
+      - run: pnpm changelogithub
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 

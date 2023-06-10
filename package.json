@@ -68,10 +68,12 @@
     "@types/node": "^18.16.17",
     "@types/prettier": "^2.7.3",
     "bumpp": "^9.1.1",
+    "changelogithub": "^0.12.11",
     "eslint": "^8.42.0",
     "generator": "link:@types/@babel/generator",
     "husky": "^8.0.3",
     "prettier": "^2.8.8",
+    "read-pkg": "^8.0.0",
     "traverse": "link:@types/@babel/traverse",
     "tsx": "^3.12.7",
     "type-fest": "^3.11.1",
@@ -93,6 +95,7 @@
     "inquirer": "^9.2.7",
     "local-pkg": "^0.4.3",
     "lodash": "^4.17.21",
+    "ofetch": "^1.1.0",
     "tsup": "^6.7.0",
     "yaml": "^2.3.1"
   }

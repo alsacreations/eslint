@@ -1,6 +1,5 @@
 #!/usr/bin/node
 
-import inquirer from 'inquirer'
 import * as t from '@babel/types'
 import traverse from '@babel/traverse'
 import generator from '@babel/generator'
@@ -10,7 +9,6 @@ import { program } from 'commander'
 import { cosmiconfig } from 'cosmiconfig'
 import { mergeWith, isArray } from 'lodash'
 import { readFile, writeFile } from 'fs/promises'
-import { execaCommand } from 'execa'
 import { getDeps } from '../helpers/deps'
 import { getConfigs } from '../helpers/configs'
 import { ProgramAnswers, questions } from '../helpers/questions'
@@ -29,6 +27,9 @@ program
   .description('Bootstrap eslint-config-alsacreations in a project')
   .action(async () => {
     try {
+      const inquirer = (await import('inquirer')).default
+      const { execaCommand } = await import('execa')
+
       const answers = await inquirer.prompt<ProgramAnswers>(questions)
 
       const deps = getDeps(answers)
@@ -140,7 +141,12 @@ program
         )
       }
     } catch (error) {
-      if (error.isTtyError) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'isTtyError' in error &&
+        error.isTtyError
+      ) {
         consola.error(`Prompt couldn't be rendered in the current environment`)
       } else {
         consola.error(error)

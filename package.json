@@ -2,50 +2,48 @@
   "name": "eslint-config-alsacreations",
   "version": "1.0.1",
   "description": "Configuration eslint d'Alsacréations",
-  "packageManager": "pnpm@7.16.0",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "packageManager": "pnpm@8.6.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/alsacreations/eslint"
   },
   "exports": {
     "./javascript": {
-      "require": "./dist/javascript/index.js",
-      "types": "./dist/javascript/index.d.ts"
+      "require": "./dist/src/javascript/index.js",
+      "types": "./dist/src/javascript/index.d.ts"
     },
     "./nuxt": {
-      "require": "./dist/nuxt/index.js",
-      "types": "./dist/nuxt/index.d.ts"
+      "require": "./dist/src/nuxt/index.js",
+      "types": "./dist/src/nuxt/index.d.ts"
     },
     "./nuxt-typescript": {
-      "require": "./dist/nuxt-typescript/index.js",
-      "types": "./dist/nuxt-typescript/index.d.ts"
+      "require": "./dist/src/nuxt-typescript/index.js",
+      "types": "./dist/src/nuxt-typescript/index.d.ts"
     },
     "./prettier": {
-      "require": "./dist/prettier/index.js",
-      "types": "./dist/prettier/index.d.ts"
+      "require": "./dist/src/prettier/index.js",
+      "types": "./dist/src/prettier/index.d.ts"
     },
     "./prettier-vue": {
-      "require": "./dist/prettier-vue/index.js",
-      "types": "./dist/prettier-vue/index.d.ts"
+      "require": "./dist/src/prettier-vue/index.js",
+      "types": "./dist/src/prettier-vue/index.d.ts"
     },
     "./typescript": {
-      "require": "./dist/typescript/index.js",
-      "types": "./dist/typescript/index.d.ts"
+      "require": "./dist/src/typescript/index.js",
+      "types": "./dist/src/typescript/index.d.ts"
     },
     "./vue": {
-      "require": "./dist/vue/index.js",
-      "types": "./dist/vue/index.d.ts"
+      "require": "./dist/src/vue/index.js",
+      "types": "./dist/src/vue/index.d.ts"
     },
     "./vue-typescript": {
-      "require": "./dist/vue-typescript/index.js",
-      "types": "./dist/vue-typescript/index.d.ts"
+      "require": "./dist/src/vue-typescript/index.js",
+      "types": "./dist/src/vue-typescript/index.d.ts"
     }
   },
   "bin": "dist/bin/bin.js",
   "scripts": {
-    "build": "rimraf dist && tsc --project ./tsconfig.json",
+    "build": "tsup",
     "release": "bumpp package.json --commit --push --tag",
     "prepare": "husky install",
     "bin-exec": "tsx bin/bin.ts init"
@@ -70,11 +68,10 @@
     "@types/node": "^18.13.0",
     "@types/prettier": "^2.7.3",
     "bumpp": "^8.2.1",
-    "eslint": "^8.33.0",
+    "eslint": "^8.42.0",
     "generator": "link:@types/@babel/generator",
     "husky": "^8.0.3",
     "prettier": "^2.8.8",
-    "rimraf": "^4.1.2",
     "traverse": "link:@types/@babel/traverse",
     "tsx": "^3.12.7",
     "type-fest": "^3.11.1",
@@ -92,9 +89,11 @@
     "cosmiconfig": "^8.2.0",
     "eslint-define-config": "^1.12.0",
     "execa": "^7.1.1",
+    "fast-glob": "^3.2.12",
     "inquirer": "^9.2.7",
     "local-pkg": "^0.4.3",
     "lodash": "^4.17.21",
+    "tsup": "^6.7.0",
     "yaml": "^2.3.1"
   }
 }

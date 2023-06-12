@@ -1,6 +1,7 @@
 import { $fetch, FetchError } from 'ofetch'
 import { consola } from 'consola'
 import { readPackage } from 'read-pkg'
+import stripAnsi from 'strip-ansi'
 
 const SLACK_NOTIFICATION_URL = process.env.SLACK_NOTIFICATION_URL
 
@@ -16,11 +17,11 @@ async function start() {
 
     const { version, name: pkgName } = await readPackage()
 
-    const { stdout: changelog } = await execaCommand(
-      'pnpm changelogithub --dry',
-    )
-
     const contentRegexp = /----+\n\n(?<content>(?:.|\s)*)\n\n----+/m
+
+    let { stdout: changelog } = await execaCommand('pnpm changelogithub --dry')
+
+    changelog = stripAnsi(changelog)
 
     const releaseContent = changelog.match(contentRegexp)?.groups?.content
 

@@ -95,6 +95,7 @@
     "lodash": "^4.17.21",
     "ofetch": "^1.1.0",
     "prettier": "^2.8.8",
+    "strip-ansi": "^7.1.0",
     "tsup": "^6.7.0",
     "type-fest": "^3.11.1",
     "yaml": "^2.3.1"

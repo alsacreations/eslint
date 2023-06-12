@@ -6,16 +6,14 @@ import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import { consola } from 'consola'
 import { program } from 'commander'
-import { cosmiconfig } from 'cosmiconfig'
-import { mergeWith, isArray } from 'lodash'
+import { mergeWith, isArray, merge } from 'lodash'
 import { readFile, writeFile } from 'fs/promises'
 import { getDeps } from '../helpers/deps'
 import { getConfigs } from '../helpers/configs'
 import { ProgramAnswers, questions } from '../helpers/questions'
 import YAML from 'yaml'
 import prettier from 'prettier'
-
-const explorer = cosmiconfig('eslint')
+import type { JsonObject } from 'type-fest'
 
 program
   .name('eslint-config-alsacreations')
@@ -27,32 +25,121 @@ program
   .description('Bootstrap eslint-config-alsacreations in a project')
   .action(async () => {
     try {
-      const inquirer = (await import('inquirer')).default
-      const { execaCommand } = await import('execa')
+      const [{ default: inquirer }, { findUp }, { execaCommand }] =
+        await Promise.all([
+          import('inquirer'),
+          import('find-up'),
+          import('execa'),
+        ])
 
       const answers = await inquirer.prompt<ProgramAnswers>(questions)
 
       const deps = getDeps(answers)
       const configs = getConfigs(answers)
 
-      const cosmiConfigRes = await explorer.search()
+      const eslintConfigPath = await findUp([
+        `.eslintrc.js`,
+        `.eslintrc.cjs`,
+        `.eslintrc.yaml`,
+        `.eslintrc.yml`,
+        `.eslintrc.json`,
+        `package.json`,
+      ])
 
-      if (cosmiConfigRes) {
-        const {
-          config: esLintConfig,
-          filepath: eslintConfigPath,
-          isEmpty = false,
-        } = cosmiConfigRes
+      if (!eslintConfigPath) {
+        throw new Error('No ESLint config file found.')
+      }
 
-        const isYml =
-          eslintConfigPath.endsWith('.yaml') ||
-          eslintConfigPath.endsWith('.yml')
-        const isJson = eslintConfigPath.endsWith('.json')
-        const isJs =
-          eslintConfigPath.endsWith('.js') || eslintConfigPath.endsWith('.cjs')
+      const isYml =
+        eslintConfigPath.endsWith('.yaml') || eslintConfigPath.endsWith('.yml')
+      const isPackageJson = eslintConfigPath.includes('package.json')
+      const isJson = eslintConfigPath.endsWith('.json') && !isPackageJson
+      const isJs =
+        eslintConfigPath.endsWith('.js') || eslintConfigPath.endsWith('.cjs')
+
+      if (isJs) {
+        const originalCode = (await readFile(eslintConfigPath)).toString()
+
+        const ast = parser.parse(originalCode, {
+          sourceType: 'module', // Specify the source type (e.g., 'module' or 'script')
+        })
+
+        let extendsArrayNode: null | t.ArrayExpression = null
+        let extendsPropertyNode = null
+
+        traverse(ast, {
+          AssignmentExpression(path) {
+            const { left, right } = path.node
+
+            if (
+              t.isMemberExpression(left) &&
+              t.isIdentifier(left.object, { name: 'module' }) &&
+              t.isIdentifier(left.property, { name: 'exports' }) &&
+              t.isObjectExpression(right)
+            ) {
+              // Find (if it exists) the `extends` property within `module.exports`
+              right.properties.forEach((property) => {
+                if (
+                  !t.isSpreadElement(property) &&
+                  !t.isObjectMethod(property) &&
+                  t.isStringLiteral(property.key, { value: 'extends' }) &&
+                  t.isArrayExpression(property.value)
+                ) {
+                  extendsArrayNode = property.value
+                  extendsPropertyNode = property
+                }
+              })
+
+              if (extendsArrayNode) {
+                // If `extends` property exists, add the items to the array
+                extendsArrayNode.elements.push(
+                  ...configs.map((config) => t.stringLiteral(config)),
+                )
+              } else {
+                // If `extends` property doesn't exist, create it with an array value
+                extendsArrayNode = t.arrayExpression(
+                  configs.map((config) => t.stringLiteral(config)),
+                )
+                extendsPropertyNode = t.objectProperty(
+                  t.stringLiteral('extends'),
+                  extendsArrayNode,
+                )
+                right.properties.push(extendsPropertyNode)
+              }
+            }
+          },
+        })
+
+        const modifiedCode = generator(ast).code
+
+        await writeFile(
+          eslintConfigPath,
+          prettier.format(modifiedCode, {
+            semi: false,
+            parser: 'babel',
+            singleQuote: true,
+            quoteProps: 'as-needed',
+          }),
+          'utf8',
+        )
+      } else {
+        const currentConfigRaw = (await readFile(eslintConfigPath)).toString()
+
+        // prettier-ignore
+        const currentConfig: JsonObject | undefined = isJson
+          ? JSON.parse(currentConfigRaw)
+          : isPackageJson
+            ? JSON.parse(currentConfigRaw)
+            : isYml
+              ? YAML.parse(currentConfigRaw)
+              : undefined
+
+        if (!currentConfig) {
+          throw new Error('Failed to parse ESLint config file.')
+        }
 
         const modifiedConfig = mergeWith(
-          isEmpty ? {} : esLintConfig,
+          isPackageJson ? currentConfig.eslintConfig ?? {} : currentConfig,
           {
             extends: configs,
           },
@@ -63,46 +150,14 @@ program
           },
         )
 
-        if (isJs) {
-          const originalCode = (await readFile(eslintConfigPath)).toString()
-
-          const ast = parser.parse(originalCode, {
-            sourceType: 'module', // Specify the source type (e.g., 'module' or 'script')
-          })
-
-          traverse(ast, {
-            AssignmentExpression(path) {
-              const { left, right } = path.node
-
-              if (
-                t.isMemberExpression(left) &&
-                t.isIdentifier(left.object, { name: 'module' }) &&
-                t.isIdentifier(left.property, { name: 'exports' })
-              ) {
-                // Prettier ne peut formater que du JS valide, on ajoute donc une fause `const` devant
-                const formattedObjectString = prettier.format(
-                  `const x = ${JSON.stringify(modifiedConfig)}`,
-                  { parser: 'babel', semi: false, singleQuote: true },
-                )
-
-                path.get('right').replaceWithSourceString(
-                  // On supprime la fausse `const` maintenant inutile
-                  formattedObjectString.replace('const x = ', ''),
-                )
-              }
-            },
-          })
-
-          const modifiedCode = generator(ast).code
-
+        if (isPackageJson) {
           await writeFile(
             eslintConfigPath,
-            prettier.format(modifiedCode, {
-              semi: false,
-              parser: 'babel',
-              singleQuote: true,
-              quoteProps: 'as-needed',
-            }),
+            JSON.stringify(
+              merge(currentConfig, { eslintConfig: modifiedConfig }),
+              null,
+              2,
+            ),
             'utf8',
           )
         }

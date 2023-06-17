@@ -100,13 +100,15 @@ program
             ) {
               // Find (if it exists) the `extends` property within `module.exports`
               right.properties.forEach((property) => {
-                if (
+                const exists =
                   !t.isSpreadElement(property) &&
                   !t.isObjectMethod(property) &&
-                  t.isStringLiteral(property.key, { value: 'extends' }) &&
-                  t.isArrayExpression(property.value)
-                ) {
-                  extendsArrayNode = property.value
+                  t.isArrayExpression(property.value) &&
+                  (t.isIdentifier(property.key, { name: 'extends' }) ||
+                    t.isStringLiteral(property.key, { value: 'extends' }))
+
+                if (exists) {
+                  extendsArrayNode = property.value as t.ArrayExpression
                   extendsPropertyNode = property
                 }
               })
@@ -187,9 +189,9 @@ program
         // prettier-ignore
         const currentConfig: JsonObject | undefined = isJson
           ? JSON.parse(currentConfigRaw)
-            : isYml
-              ? YAML.parse(currentConfigRaw)
-              : undefined
+          : isYml
+            ? YAML.parse(currentConfigRaw)
+            : undefined
 
         if (!currentConfig) {
           throw new Error('Failed to parse ESLint config file.')

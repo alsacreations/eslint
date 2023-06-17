@@ -86,6 +86,8 @@ program
         let extendsArrayNode: null | t.ArrayExpression = null
         let extendsPropertyNode = null
 
+        let hasRequiredModule = false
+
         traverse(ast, {
           AssignmentExpression(path) {
             const { left, right } = path.node
@@ -127,7 +129,45 @@ program
               }
             }
           },
+          ExpressionStatement(path) {
+            // Check if it's a standalone `require` statement
+            if (
+              t.isCallExpression(path.node.expression) &&
+              t.isIdentifier(path.node.expression.callee, {
+                name: 'require',
+              }) &&
+              path.node.expression.arguments.length === 1 &&
+              t.isStringLiteral(path.node.expression.arguments[0], {
+                value: '@rushstack/eslint-patch/modern-module-resolution',
+              })
+            ) {
+              hasRequiredModule = true
+            }
+          },
         })
+
+        if (!hasRequiredModule) {
+          const requireStatement = t.expressionStatement(
+            t.callExpression(t.identifier('require'), [
+              t.stringLiteral(
+                '@rushstack/eslint-patch/modern-module-resolution',
+              ),
+            ]),
+          )
+
+          // Find the first non-import declaration and insert the `require` statement before it
+          let insertionIndex = 0
+
+          for (const node of ast.program.body) {
+            if (!t.isImportDeclaration(node)) {
+              break
+            }
+
+            insertionIndex++
+          }
+
+          ast.program.body.splice(insertionIndex, 0, requireStatement)
+        }
 
         const modifiedCode = generator(ast).code
 

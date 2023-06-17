@@ -6,14 +6,16 @@ import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import { consola } from 'consola'
 import { program } from 'commander'
-import { mergeWith, isArray, merge } from 'lodash'
+import { mergeWith, isArray } from 'lodash'
 import { readFile, writeFile } from 'fs/promises'
 import { getDeps } from '../helpers/deps'
 import { getConfigs } from '../helpers/configs'
-import { ProgramAnswers, questions } from '../helpers/questions'
+import type { ProgramAnswers } from '../helpers/questions'
+import { questions } from '../helpers/questions'
 import YAML from 'yaml'
 import prettier from 'prettier'
 import type { JsonObject } from 'type-fest'
+import path from 'node:path'
 
 program
   .name('eslint-config-alsacreations')
@@ -37,23 +39,40 @@ program
       const deps = getDeps(answers)
       const configs = getConfigs(answers)
 
-      const eslintConfigPath = await findUp([
+      let eslintConfigPath = await findUp([
         `.eslintrc.js`,
         `.eslintrc.cjs`,
         `.eslintrc.yaml`,
         `.eslintrc.yml`,
         `.eslintrc.json`,
-        `package.json`,
       ])
 
       if (!eslintConfigPath) {
-        throw new Error('No ESLint config file found.')
+        consola.warn('No ESLint config file found. Trying to create one...')
+
+        const closestPackageJson = await findUp('package.json')
+
+        if (!closestPackageJson) {
+          throw new Error(
+            "Couldn't find a package.json file to create default ESLint config",
+          )
+        }
+
+        const newEslintConfigPath = path.resolve(
+          path.dirname(closestPackageJson),
+          '.eslintrc.js',
+        )
+
+        await writeFile(newEslintConfigPath, `module.exports = { root: true }`)
+
+        consola.success('Successfully created ESLint config file')
+
+        eslintConfigPath = newEslintConfigPath
       }
 
       const isYml =
         eslintConfigPath.endsWith('.yaml') || eslintConfigPath.endsWith('.yml')
-      const isPackageJson = eslintConfigPath.includes('package.json')
-      const isJson = eslintConfigPath.endsWith('.json') && !isPackageJson
+      const isJson = eslintConfigPath.endsWith('.json')
       const isJs =
         eslintConfigPath.endsWith('.js') || eslintConfigPath.endsWith('.cjs')
 
@@ -128,8 +147,6 @@ program
         // prettier-ignore
         const currentConfig: JsonObject | undefined = isJson
           ? JSON.parse(currentConfigRaw)
-          : isPackageJson
-            ? JSON.parse(currentConfigRaw)
             : isYml
               ? YAML.parse(currentConfigRaw)
               : undefined
@@ -139,7 +156,7 @@ program
         }
 
         const modifiedConfig = mergeWith(
-          isPackageJson ? currentConfig.eslintConfig ?? {} : currentConfig,
+          currentConfig,
           {
             extends: configs,
           },
@@ -149,18 +166,6 @@ program
             }
           },
         )
-
-        if (isPackageJson) {
-          await writeFile(
-            eslintConfigPath,
-            JSON.stringify(
-              merge(currentConfig, { eslintConfig: modifiedConfig }),
-              null,
-              2,
-            ),
-            'utf8',
-          )
-        }
 
         if (isJson) {
           await writeFile(

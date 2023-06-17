@@ -4,6 +4,13 @@ export = defineConfig({
   extends: [
     '../common'
   ],
+  parserOptions: {
+    ecmaVersion: 'latest'
+  },
+  env: {
+    node: true,
+    browser: true
+  },
   rules: {
     curly: ['error', 'all'], // {} toujours requises
     'no-trailing-spaces': 'error', // pas d'espaces vides

@@ -5,7 +5,8 @@ export = defineConfig({
     '../common'
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
   env: {
     node: true,

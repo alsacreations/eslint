@@ -70,10 +70,8 @@
     "bumpp": "^9.1.1",
     "changelogithub": "^0.12.11",
     "eslint": "^8.42.0",
-    "generator": "link:@types/@babel/generator",
     "husky": "^8.0.3",
     "read-pkg": "^8.0.0",
-    "traverse": "link:@types/@babel/traverse",
     "tsx": "^3.12.7",
     "typescript": "^5.1.3"
   },

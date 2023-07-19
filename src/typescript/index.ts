@@ -27,6 +27,12 @@ function getConfig() {
         { args: 'all', argsIgnorePattern: '^_' },
       ],
 
+      /**
+       * @see https://typescript-eslint.io/rules/no-use-before-define/
+       */
+      'no-use-before-define': 'off',
+      '@typescript-eslint/no-use-before-define': 'error',
+
       /*
        * Per the docs, the root no-unused-vars should be disabled:
        * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-vars.md

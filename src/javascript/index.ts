@@ -1,18 +1,17 @@
 import { defineConfig } from 'eslint-define-config'
 
 export = defineConfig({
-  extends: [
-    '../common'
-  ],
+  extends: ['../common'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
   env: {
     node: true,
-    browser: true
+    browser: true,
   },
   rules: {
+    'no-use-before-define': 'error',
     curly: ['error', 'all'], // {} toujours requises
     'no-trailing-spaces': 'error', // pas d'espaces vides
     'object-shorthand': ['error', 'always'],
@@ -21,8 +20,8 @@ export = defineConfig({
       'error',
       {
         destructuring: 'all',
-        ignoreReadBeforeAssign: false
-      }
+        ignoreReadBeforeAssign: false,
+      },
     ],
     // pas d'espaces avant les () d'une fonction
     'space-before-function-paren': [
@@ -30,8 +29,8 @@ export = defineConfig({
       {
         anonymous: 'never',
         named: 'never',
-        asyncArrow: 'always'
-      }
-    ]
-  }
+        asyncArrow: 'always',
+      },
+    ],
+  },
 })

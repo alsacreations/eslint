@@ -38,12 +38,11 @@ function getConfig() {
     rules: typescriptConfig.rules,
 
     overrides: [
+      ...(typescriptConfig.overrides ?? []),
       {
-        files: ['*.{vue,ts,tsx}'],
+        files: ['*.vue'],
         rules: {
-          // On utilise la règle de TS qui fait déjà le boulot
           'no-unused-vars': 'off',
-          '@typescript-eslint/no-unused-vars': 'off',
         },
       },
     ],

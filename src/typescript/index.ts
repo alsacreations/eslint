@@ -24,7 +24,7 @@ function getConfig() {
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',
-        { args: 'all', argsIgnorePattern: '^_' },
+        { args: 'all', argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
 
       /**
@@ -73,6 +73,7 @@ function getConfig() {
               },
             },
           ],
+          'no-unused-vars': 'off',
         },
       },
     ],

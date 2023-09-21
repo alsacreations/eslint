@@ -28,6 +28,7 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
 
 ```sh
 # npm, yarn, pnpm
+# Si besoin au préalable pnpm init (pour disposer d'un fichier package.json)
 npx eslint-config-alsacreations@latest init
 ```
 
@@ -113,9 +114,9 @@ npm i --save-dev prettier @vue/eslint-config-prettier
 
 ### Configuration
 
-```js
-// .eslintrc.js ou équivalent
+Puis ajouter un fichier de configuration à la racine `.eslintrc.js` ou équivalent.
 
+```js
 require('@rushstack/eslint-patch/modern-module-resolution')
 
 /* eslint-env node */

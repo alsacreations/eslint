@@ -175,7 +175,7 @@ program
 
         await writeFile(
           eslintConfigPath,
-          prettier.format(modifiedCode, {
+          await prettier.format(modifiedCode, {
             semi: false,
             parser: 'babel',
             singleQuote: true,
@@ -229,11 +229,8 @@ program
       try {
         const execaRes = execaCommand(
           `npx --package=@antfu/ni ni --save-dev ${deps.join(' ')}`,
-          { env: { FORCE_COLOR: 'true' } },
+          { env: { FORCE_COLOR: 'true' }, stdio: 'inherit' },
         )
-
-        // Ajoute les log du process enfant aux logs du process parent
-        execaRes.pipeStdout?.(process.stdout)
 
         await execaRes
       } catch (error) {

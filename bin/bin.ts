@@ -227,8 +227,32 @@ program
       }
 
       try {
+        const installCommands = {
+          npm: `npm install -D ${deps.join(' ')}`,
+          yarn: `yarn add -D ${deps.join(' ')}`,
+          pnpm: `pnpm add -D ${deps.join(' ')}`,
+          bun: `bun add -D ${deps.join(' ')}`
+        }
+
+        const { packageManager } = await inquirer.prompt<{
+          packageManager: keyof typeof installCommands
+        }>([
+          {
+            message: 'What is your package manager?',
+            name: 'packageManager',
+            default: 'npm',
+            type: 'list',
+            choices: [
+              { name: 'npm', value: 'npm' satisfies keyof typeof installCommands },
+              { name: 'yarn', value: 'yarn' satisfies keyof typeof installCommands },
+              { name: 'pnpm', value: 'pnpm' satisfies keyof typeof installCommands },
+              { name: 'bun', value: 'bun' satisfies keyof typeof installCommands }
+            ],
+          }
+        ])
+
         const execaRes = execaCommand(
-          `npx --package=@antfu/ni ni --save-dev ${deps.join(' ')}`,
+          installCommands[packageManager],
           { env: { FORCE_COLOR: 'true' }, stdio: 'inherit' },
         )
 

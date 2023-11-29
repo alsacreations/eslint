@@ -1,29 +1,51 @@
-import type { Question } from 'inquirer'
+import consola from 'consola'
 import type { Merge } from 'type-fest'
 
-export const questions = [
+const questions = [
   {
-    type: 'confirm',
     name: 'prettier',
     message: 'Do you use Prettier ?',
   },
   {
-    type: 'confirm',
     name: 'typescript',
     message: 'Do you use TypeScript ?',
   },
   {
-    type: 'confirm',
+    name: 'astro',
+    message: 'Do you use Astro ?',
+  },
+  {
     name: 'nuxt',
     message: 'Do you use Nuxt ?',
   },
   {
-    type: 'confirm',
     name: 'vue',
     message: 'Do you use Vue ?',
     when: (answers) => answers['nuxt'] === false,
   },
-] as const satisfies readonly Readonly<Question>[]
+] as const satisfies readonly {
+  name: string
+  message: string
+  when?: (answers: Record<string, boolean>) => boolean
+}[]
+
+export async function getAnswers() {
+  const answers: Record<string, boolean> = {}
+
+  for await (const question of questions) {
+    if ('when' in question && question.when && !question.when(answers)) {
+      continue
+    }
+
+    const answer = await consola.prompt(question.message, {
+      type: 'confirm',
+    })
+
+    answers[question.name] = answer
+  }
+
+  return answers as ProgramAnswers
+}
 
 type ProgramQuestion = (typeof questions)[number]
 

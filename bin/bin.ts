@@ -1,21 +1,14 @@
 #!/usr/bin/env node
 
-import * as t from '@babel/types'
-import traverse from '@babel/traverse'
-import generator from '@babel/generator'
-import * as parser from '@babel/parser'
 import { consola } from 'consola'
 import { program } from 'commander'
-import { mergeWith, isArray } from 'lodash'
-import { readFile, writeFile } from 'fs/promises'
+import { writeFile } from 'fs/promises'
 import { getDeps } from '../helpers/deps'
 import { getConfigs } from '../helpers/configs'
-import type { ProgramAnswers } from '../helpers/questions'
-import { questions } from '../helpers/questions'
-import YAML from 'yaml'
+import { getAnswers } from '../helpers/questions'
 import prettier from 'prettier'
-import type { JsonObject } from 'type-fest'
 import path from 'node:path'
+import { codeBlock } from 'common-tags'
 
 program
   .name('eslint-config-alsacreations')
@@ -27,14 +20,10 @@ program
   .description('Bootstrap eslint-config-alsacreations in a project')
   .action(async () => {
     try {
-      const [{ default: inquirer }, { findUp }, { execaCommand }] =
-        await Promise.all([
-          import('inquirer'),
-          import('find-up'),
-          import('execa'),
-        ])
+      const [{ findUp }, { execaCommand }, { default: chalk }] =
+        await Promise.all([import('find-up'), import('execa'), import('chalk')])
 
-      const answers = await inquirer.prompt<ProgramAnswers>(questions)
+      const answers = await getAnswers()
 
       const deps = getDeps(answers)
       const configs = getConfigs(answers)
@@ -46,6 +35,106 @@ program
         `.eslintrc.yml`,
         `.eslintrc.json`,
       ])
+
+      let prettierConfigPath = await findUp([
+        `.prettierrc.js`,
+        `prettier.config.js`,
+        `prettier.config.cjs`,
+        `prettier.config.mjs`,
+        `.prettierrc.mjs`,
+        `.prettierrc.cjs`,
+      ])
+
+      if (prettierConfigPath && answers.prettier && answers.astro) {
+        consola.box(
+          [
+            chalk.bold.blue(
+              `Please add the following to your Prettier config file:`,
+            ),
+            chalk.green(
+              codeBlock`
+            "plugins": ["prettier-plugin-astro"],
+            "overrides": [
+              {
+                "files": "*.astro",
+                "options": {
+                  "parser": "astro"
+                }
+              }
+            ]`,
+            ),
+          ].join('\n\n'),
+        )
+
+        const confirmed = await consola.prompt('Do you want to continue?', {
+          type: 'confirm',
+        })
+
+        if (!confirmed) {
+          process.exit(0)
+        }
+      } else if (!prettierConfigPath && answers.prettier) {
+        consola.warn(
+          'No JavaScript Prettier config file found. Trying to create one...',
+        )
+
+        const closestPackageJson = await findUp('package.json')
+
+        if (!closestPackageJson) {
+          throw new Error(
+            "Couldn't find a package.json file to create default Prettier config",
+          )
+        }
+
+        const newPrettierConfigPath = path.resolve(
+          path.dirname(closestPackageJson),
+          '.prettierrc.mjs',
+        )
+
+        await writeFile(
+          newPrettierConfigPath,
+          await prettier.format(
+            `
+            /** @type {import("prettier").Config} */
+            export default {
+              'semi': false,
+              'singleQuote': true,
+              'quoteProps': 'as-needed',
+              'trailingComma': 'all',
+              'bracketSpacing': true,
+              'bracketSameLine': false,
+              'arrowParens': 'always',
+              'singleAttributePerLine': true,
+              'printWidth': 80,
+              'jsxSingleQuote': true,
+              ${
+                answers.astro
+                  ? codeBlock`
+                plugins: ['prettier-plugin-astro'],
+                overrides: [
+                  {
+                    files: '*.astro',
+                    options: {
+                      parser: 'astro',
+                    },
+                  },
+                ],`
+                  : ``
+              }
+            }`,
+            {
+              semi: false,
+              parser: 'babel',
+              singleQuote: true,
+              quoteProps: 'as-needed',
+            },
+          ),
+        )
+
+        consola.success('Successfully created Prettier config file')
+
+        prettierConfigPath = newPrettierConfigPath
+      }
 
       if (!eslintConfigPath) {
         consola.warn('No ESLint config file found. Trying to create one...')
@@ -63,167 +152,75 @@ program
           '.eslintrc.js',
         )
 
-        await writeFile(newEslintConfigPath, `module.exports = { root: true }`)
+        await writeFile(
+          newEslintConfigPath,
+          await prettier.format(
+            `
+          require('@rushstack/eslint-patch/modern-module-resolution')
+
+          module.exports = {
+            root: true,
+            extends: ${JSON.stringify(configs)},
+          }`,
+            {
+              semi: false,
+              parser: 'babel',
+              singleQuote: true,
+              quoteProps: 'as-needed',
+            },
+          ),
+        )
 
         consola.success('Successfully created ESLint config file')
-
-        eslintConfigPath = newEslintConfigPath
       }
 
-      const isYml =
-        eslintConfigPath.endsWith('.yaml') || eslintConfigPath.endsWith('.yml')
-      const isJson = eslintConfigPath.endsWith('.json')
-      const isJs =
-        eslintConfigPath.endsWith('.js') || eslintConfigPath.endsWith('.cjs')
-
-      if (isJs) {
-        const originalCode = (await readFile(eslintConfigPath)).toString()
-
-        const ast = parser.parse(originalCode, {
-          sourceType: 'module', // Specify the source type (e.g., 'module' or 'script')
-        })
-
-        let extendsArrayNode: null | t.ArrayExpression = null
-        let extendsPropertyNode = null
-
-        let hasRequiredModule = false
-
-        traverse(ast, {
-          AssignmentExpression(path) {
-            const { left, right } = path.node
-
-            if (
-              t.isMemberExpression(left) &&
-              t.isIdentifier(left.object, { name: 'module' }) &&
-              t.isIdentifier(left.property, { name: 'exports' }) &&
-              t.isObjectExpression(right)
-            ) {
-              // Find (if it exists) the `extends` property within `module.exports`
-              right.properties.forEach((property) => {
-                const exists =
-                  !t.isSpreadElement(property) &&
-                  !t.isObjectMethod(property) &&
-                  t.isArrayExpression(property.value) &&
-                  (t.isIdentifier(property.key, { name: 'extends' }) ||
-                    t.isStringLiteral(property.key, { value: 'extends' }))
-
-                if (exists) {
-                  extendsArrayNode = property.value as t.ArrayExpression
-                  extendsPropertyNode = property
-                }
-              })
-
-              if (extendsArrayNode) {
-                // If `extends` property exists, add the items to the array
-                extendsArrayNode.elements.push(
-                  ...configs.map((config) => t.stringLiteral(config)),
-                )
-              } else {
-                // If `extends` property doesn't exist, create it with an array value
-                extendsArrayNode = t.arrayExpression(
-                  configs.map((config) => t.stringLiteral(config)),
-                )
-                extendsPropertyNode = t.objectProperty(
-                  t.stringLiteral('extends'),
-                  extendsArrayNode,
-                )
-                right.properties.push(extendsPropertyNode)
-              }
-            }
-          },
-          ExpressionStatement(path) {
-            // Check if it's a standalone `require` statement
-            if (
-              t.isCallExpression(path.node.expression) &&
-              t.isIdentifier(path.node.expression.callee, {
-                name: 'require',
-              }) &&
-              path.node.expression.arguments.length === 1 &&
-              t.isStringLiteral(path.node.expression.arguments[0], {
-                value: '@rushstack/eslint-patch/modern-module-resolution',
-              })
-            ) {
-              hasRequiredModule = true
-            }
-          },
-        })
-
-        if (!hasRequiredModule) {
-          const requireStatement = t.expressionStatement(
-            t.callExpression(t.identifier('require'), [
-              t.stringLiteral(
-                '@rushstack/eslint-patch/modern-module-resolution',
-              ),
-            ]),
-          )
-
-          // Find the first non-import declaration and insert the `require` statement before it
-          let insertionIndex = 0
-
-          for (const node of ast.program.body) {
-            if (!t.isImportDeclaration(node)) {
-              break
-            }
-
-            insertionIndex++
-          }
-
-          ast.program.body.splice(insertionIndex, 0, requireStatement)
-        }
-
-        const modifiedCode = generator(ast).code
-
-        await writeFile(
-          eslintConfigPath,
-          await prettier.format(modifiedCode, {
-            semi: false,
-            parser: 'babel',
-            singleQuote: true,
-            quoteProps: 'as-needed',
-          }),
-          'utf8',
-        )
-      } else {
-        const currentConfigRaw = (await readFile(eslintConfigPath)).toString()
-
-        // prettier-ignore
-        const currentConfig: JsonObject | undefined = isJson
-          ? JSON.parse(currentConfigRaw)
-          : isYml
-            ? YAML.parse(currentConfigRaw)
-            : undefined
-
-        if (!currentConfig) {
-          throw new Error('Failed to parse ESLint config file.')
-        }
-
-        const modifiedConfig = mergeWith(
-          currentConfig,
-          {
-            extends: configs,
-          },
-          (objValue, srcValue) => {
-            if (isArray(objValue)) {
-              return objValue.concat(srcValue)
-            }
-          },
+      if (
+        eslintConfigPath &&
+        (eslintConfigPath.endsWith('.js') || eslintConfigPath.endsWith('.cjs'))
+      ) {
+        consola.box(
+          chalk.bold.blue(
+            `Please add the following line at the top of your ESLint config file:`,
+          ),
+          chalk.green(
+            codeBlock`require('@rushstack/eslint-patch/modern-module-resolution')`,
+          ),
         )
 
-        if (isJson) {
-          await writeFile(
-            eslintConfigPath,
-            JSON.stringify(modifiedConfig, null, 2),
-            'utf8',
-          )
+        const confirmed = await consola.prompt('Do you want to continue?', {
+          type: 'confirm',
+        })
+
+        if (!confirmed) {
+          process.exit(0)
         }
 
-        if (isYml) {
-          await writeFile(
-            eslintConfigPath,
-            YAML.stringify(modifiedConfig, null, 2),
-            'utf8',
-          )
+        consola.box(
+          [
+            chalk.bold.blue(
+              `Please add the following configuration to your ESLint config file:`,
+            ),
+            '\n\n',
+            chalk.green(codeBlock`extends: ${JSON.stringify(configs)}`),
+          ].join(''),
+        )
+
+        const confirmed2 = await consola.prompt('Do you want to continue?', {
+          type: 'confirm',
+        })
+
+        if (!confirmed2) {
+          process.exit(0)
         }
+      } else if (
+        eslintConfigPath &&
+        (eslintConfigPath.endsWith('.yaml') ||
+          eslintConfigPath.endsWith('.yml') ||
+          eslintConfigPath.endsWith('.json'))
+      ) {
+        throw new Error(
+          `ESLint config file is not a JavaScript file. JSON and YAML files are not supported.`,
+        )
       }
 
       try {
@@ -231,36 +228,34 @@ program
           npm: `npm install -D ${deps.join(' ')}`,
           yarn: `yarn add -D ${deps.join(' ')}`,
           pnpm: `pnpm add -D ${deps.join(' ')}`,
-          bun: `bun add -D ${deps.join(' ')}`
+          bun: `bun add -D ${deps.join(' ')}`,
         }
 
-        const { packageManager } = await inquirer.prompt<{
-          packageManager: keyof typeof installCommands
-        }>([
+        const packageManager = await consola.prompt(
+          'What is your package manager?',
           {
-            message: 'What is your package manager?',
-            name: 'packageManager',
-            default: 'npm',
-            type: 'list',
-            choices: [
-              { name: 'npm', value: 'npm' satisfies keyof typeof installCommands },
-              { name: 'yarn', value: 'yarn' satisfies keyof typeof installCommands },
-              { name: 'pnpm', value: 'pnpm' satisfies keyof typeof installCommands },
-              { name: 'bun', value: 'bun' satisfies keyof typeof installCommands }
-            ],
-          }
-        ])
-
-        const execaRes = execaCommand(
-          installCommands[packageManager],
-          { env: { FORCE_COLOR: 'true' }, stdio: 'inherit' },
+            type: 'select',
+            options: [
+              'npm',
+              'yarn',
+              'pnpm',
+              'bun',
+            ] satisfies (keyof typeof installCommands)[],
+          },
         )
 
+        const execaRes = execaCommand(installCommands[packageManager], {
+          env: { FORCE_COLOR: 'true' },
+          stdio: 'inherit',
+        })
+
         await execaRes
+
+        consola.success('Installation successful!')
       } catch (error) {
         throw new Error(
-          `Failed to install packages, please install the following dependencies manually: ${deps.join(
-            ' ',
+          `Failed to install packages, please install the following dependencies manually: ${chalk.bold.green(
+            deps.join(' '),
           )}`,
         )
       }

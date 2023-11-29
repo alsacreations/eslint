@@ -44,7 +44,7 @@
   "bin": "dist/bin/bin.js",
   "scripts": {
     "build": "tsup",
-    "release": "bumpp package.json --commit --push --tag",
+    "release": "pnpm changelogen --output CHANGELOG.md --release --bump --push",
     "prepare": "husky install",
     "bin-exec": "tsx bin/bin.ts init"
   },
@@ -65,7 +65,7 @@
     "@types/node": "^20.8.4",
     "@types/prettier": "^2.7.3",
     "bumpp": "^9.2.0",
-    "changelogithub": "^0.13.1",
+    "changelogen": "^0.5.5",
     "eslint": "^8.54.0",
     "husky": "^8.0.3",
     "read-pkg": "^8.1.0",

@@ -17,19 +17,13 @@ async function start() {
 
     const { version, name: pkgName } = await readPackage()
 
-    const contentRegexp = /----+\n\n(?<content>(?:.|\s)*)\n\n----+/m
-
-    let { stdout: changelog } = await execaCommand('pnpm changelogithub --dry')
+    let { stdout: changelog } = await execaCommand(
+      'pnpm changelogen --no-output',
+    )
 
     changelog = stripAnsi(changelog)
 
-    const releaseContent = changelog.match(contentRegexp)?.groups?.content
-
-    if (!releaseContent) {
-      throw new Error('`releaseContent` does not contain text.')
-    }
-
-    const text = releaseContent
+    const text = changelog
       .trim()
       // Gestion du gras pour Slack
       .replace(/\*\*/gm, '*')

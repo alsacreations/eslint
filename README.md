@@ -165,3 +165,8 @@ module.exports = {
 ### Conventions git
 
 Utilisation de [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Depuis ces commits, le changelog de chaque release est automatisé.
+
+### Déployer une nouvelle version
+
+1. Se connecter à Github via la ligne de commande `gh auth login`.
+2. Lancer la commande `pnpm run release` à la racine du projet.

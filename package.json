@@ -44,7 +44,7 @@
   "bin": "dist/bin/bin.js",
   "scripts": {
     "build": "tsup",
-    "release": "pnpm changelogen --output CHANGELOG.md --release --bump --push",
+    "release": "pnpm changelogen --release --push",
     "prepare": "husky install",
     "bin-exec": "tsx bin/bin.ts init"
   },

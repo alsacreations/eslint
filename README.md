@@ -6,7 +6,7 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
 
 - Règles communes à JavaScript et Vue/Nuxt
 
-### ⚙️ Configuration Javascript
+### ⚙️ Configuration JavaScript
 
 - Utilisation des règles ESLint de base (sans plugin)
 
@@ -23,6 +23,10 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint de l'[ag
 ### 💚 Configuration Nuxt
 
 - Utilisation du plugin `@nuxtjs/eslint-plugin`
+
+### 🚀 Configuration Prettier avec option pour Astro
+
+- Utilisation du plugin `prettier-plugin-astro`
 
 ## Installation automatique
 

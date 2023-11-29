@@ -1,3 +1,15 @@
+## v2.0.1
+
+[compare changes](https://github.com/alsacreations/eslint/compare/v2.0.0...v2.0.1)
+
+### 🏡 Chore
+
+- Remove unecessary ci changelog config ([0181d4c](https://github.com/alsacreations/eslint/commit/0181d4c))
+
+### ❤️ Contributors
+
+- Nicolas Sutter <contact.sutter.nicolas@gmail.com>
+
 ## v1.5.0...v2.0.0
 
 [compare changes](https://github.com/alsacreations/eslint/compare/v1.5.0...v2.0.0)

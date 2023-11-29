@@ -44,7 +44,7 @@
   "bin": "dist/bin/bin.js",
   "scripts": {
     "build": "tsup",
-    "release": "pnpm changelogen --release --push",
+    "release": "pnpm changelogen --release --push --token $(gh auth token)",
     "prepare": "husky install",
     "bin-exec": "tsx bin/bin.ts init"
   },

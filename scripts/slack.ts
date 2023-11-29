@@ -2,6 +2,8 @@ import { $fetch, FetchError } from 'ofetch'
 import { consola } from 'consola'
 import { readPackage } from 'read-pkg'
 import stripAnsi from 'strip-ansi'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 
 const SLACK_NOTIFICATION_URL = process.env.SLACK_NOTIFICATION_URL
 
@@ -13,13 +15,19 @@ async function start() {
       )
     }
 
-    const { execaCommand } = await import('execa')
-
     const { version, name: pkgName } = await readPackage()
 
-    let { stdout: changelog } = await execaCommand(
-      'pnpm changelogen --no-output',
+    const fullChangelog = await readFile(
+      join(process.cwd(), 'CHANGELOG.md'),
+      'utf-8',
     )
+
+    let changelog = /(##\sv\d(?:.|\n)+)\n##\sv\d/gm.exec(fullChangelog)?.[1]
+
+    if (!changelog) {
+      consola.error('Unable to parse changelog, aborting.')
+      process.exit(0)
+    }
 
     changelog = stripAnsi(changelog)
 

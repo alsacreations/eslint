@@ -136,6 +136,10 @@ module.exports = {
     'alsacreations/vue', // Vue tout seul
 
     // /!\ Ne choisir que l'un ou l'autre
+    'alsacreations/solid', // Solid tout seul
+    'alsacreations/solid-typescript', // Solid + TS
+
+    // /!\ Ne choisir que l'un ou l'autre
     // /!\ Ne pas choisir 'alsacreations/nuxt' ni 'alsacreations/vue'
     'alsacreations/nuxt-typescript', // Nuxt + TS
     'alsacreations/vue-typescript', // Vue + TS

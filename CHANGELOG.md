@@ -1,3 +1,27 @@
+## v2.1.0
+
+[compare changes](https://github.com/alsacreations/eslint/compare/v2.0.1...v2.1.0)
+
+### 🚀 Enhancements
+
+- Add solid config ([842544c](https://github.com/alsacreations/eslint/commit/842544c))
+
+### 🩹 Fixes
+
+- Fix slack changelog generation ([d47a067](https://github.com/alsacreations/eslint/commit/d47a067))
+
+### 📖 Documentation
+
+- Add astro prettier plugin to the docs ([44445a8](https://github.com/alsacreations/eslint/commit/44445a8))
+
+### 🏡 Chore
+
+- Add github token to `release` script ([ab8ae28](https://github.com/alsacreations/eslint/commit/ab8ae28))
+
+### ❤️ Contributors
+
+- Nicolas Sutter <contact.sutter.nicolas@gmail.com>
+
 ## v2.0.1
 
 [compare changes](https://github.com/alsacreations/eslint/compare/v2.0.0...v2.0.1)

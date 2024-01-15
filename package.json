@@ -39,6 +39,14 @@
     "./vue-typescript": {
       "require": "./dist/src/vue-typescript/index.js",
       "types": "./dist/src/vue-typescript/index.d.ts"
+    },
+    "./solid": {
+      "require": "./dist/src/solid/index.js",
+      "types": "./dist/src/solid/index.d.ts"
+    },
+    "./solid-typescript": {
+      "require": "./dist/src/solid-typescript/index.js",
+      "types": "./dist/src/solid-typescript/index.d.ts"
     }
   },
   "bin": "dist/bin/bin.js",

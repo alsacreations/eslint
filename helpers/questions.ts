@@ -11,6 +11,10 @@ const questions = [
     message: 'Do you use TypeScript ?',
   },
   {
+    name: 'solid',
+    message: 'Do you use Solid ?',
+  },
+  {
     name: 'astro',
     message: 'Do you use Astro ?',
   },

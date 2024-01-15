@@ -26,6 +26,14 @@ export function getConfigs(answers: ProgramAnswers) {
     configs.push('alsacreations/typescript')
   }
 
+  if (answers.solid && !answers.typescript) {
+    configs.push('alsacreations/solid')
+  }
+
+  if (answers.solid && answers.typescript) {
+    configs.push('alsacreations/solid-typescript')
+  }
+
   if ((answers.vue || answers.nuxt) && answers.prettier) {
     configs.push('alsacreations/prettier-vue')
   }

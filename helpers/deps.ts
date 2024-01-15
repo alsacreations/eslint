@@ -8,6 +8,7 @@ export function getDeps(answers: ProgramAnswers) {
     answers.typescript ? 'typescript' : undefined,
     answers.prettier ? 'prettier' : undefined,
     answers.astro && answers.prettier ? 'prettier-plugin-astro' : undefined,
+    answers.solid ? 'eslint-plugin-solid' : undefined,
     // Prettier sans framework
     !answers.vue && !answers.nuxt && answers.prettier
       ? 'eslint-config-prettier'

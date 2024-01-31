@@ -39,6 +39,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - run: pnpm tsx scripts/slack.ts
-        env:
-          SLACK_NOTIFICATION_URL: ${{secrets.SLACK_NOTIFICATION_URL}}
+      # - run: pnpm tsx scripts/slack.ts
+      #   env:
+      #     SLACK_NOTIFICATION_URL: ${{secrets.SLACK_NOTIFICATION_URL}}

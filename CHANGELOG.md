@@ -1,3 +1,19 @@
+## v2.1.1
+
+[compare changes](https://github.com/alsacreations/eslint/compare/v2.1.0...v2.1.1)
+
+### 🩹 Fixes
+
+- Change .eslintrc config file to ` .cjs` ([d8b9c9f](https://github.com/alsacreations/eslint/commit/d8b9c9f))
+
+### 📖 Documentation
+
+- Add solid configs to docs ([c497140](https://github.com/alsacreations/eslint/commit/c497140))
+
+### ❤️ Contributors
+
+- Nicolas Sutter <contact.sutter.nicolas@gmail.com>
+
 ## v2.1.0
 
 [compare changes](https://github.com/alsacreations/eslint/compare/v2.0.1...v2.1.0)

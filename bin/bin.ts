@@ -149,7 +149,7 @@ program
 
         const newEslintConfigPath = path.resolve(
           path.dirname(closestPackageJson),
-          '.eslintrc.js',
+          '.eslintrc.cjs',
         )
 
         await writeFile(

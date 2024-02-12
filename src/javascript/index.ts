@@ -1,7 +1,7 @@
 import { defineConfig } from 'eslint-define-config'
 
 export = defineConfig({
-  extends: ['../common'],
+  extends: ['eslint:recommended', '../common'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',

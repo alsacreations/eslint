@@ -1,34 +1,38 @@
-import { defineConfig } from 'eslint-define-config'
-import { removeUnusedItems } from '../utils'
-import commonConfig = require('../common')
+/// <reference path="./untyped.d.ts" />
+
+import commonConfig from './common'
+import tseslint from 'typescript-eslint'
+import pluginVue from 'eslint-plugin-vue'
 
 /**
  * Pour Vue, on prefix par `vue/`
  * @example `vue/space-in-parens`
  */
-const commonVueConfig = defineConfig({
-  rules: Object.fromEntries(
-    Object.entries(commonConfig.rules as Record<string, any>).map(
-      ([key, value]) => [`vue/${key}`, value],
-    ),
-  ),
+const commonVueConfigs = commonConfig.map((config) => {
+  const rules = Object.fromEntries(
+    Object.entries(config.rules as Record<string, any>).map(([key, value]) => [
+      `vue/${key}`,
+      value,
+    ]),
+  )
+
+  return {
+    rules,
+  }
 })
 
-function getConfig() {
-  return defineConfig({
-    overrides: [
-      {
-        files: ['*.vue'],
-        rules: {
-          'no-undef': 'off',
-        },
-      },
-    ],
-
-    extends: removeUnusedItems(['plugin:vue/vue3-recommended', '../common']),
-
+export default tseslint.config(
+  ...commonConfig,
+  ...commonVueConfigs,
+  ...pluginVue.configs['flat/recommended'],
+  {
+    files: ['*.vue'],
     rules: {
-      ...commonVueConfig.rules,
+      'no-undef': 'off',
+    },
+  },
+  {
+    rules: {
       'vue/no-spaces-around-equal-signs-in-attribute': 'error',
       'vue/this-in-template': ['error', 'never'],
       'vue/v-on-style': ['error', 'longform'],
@@ -60,7 +64,5 @@ function getConfig() {
       'vue/define-macros-order': ['error'],
       'vue/define-props-declaration': ['error', 'type-based'],
     },
-  })
-}
-
-export = getConfig()
+  },
+)

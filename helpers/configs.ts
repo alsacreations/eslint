@@ -1,45 +1,28 @@
 import { ProgramAnswers } from './questions'
 
 export function getConfigs(answers: ProgramAnswers) {
-  const configs: string[] = ['alsacreations/javascript']
-
-  const VueTS = answers.vue && answers.typescript
-  const NuxtTS = answers.nuxt && answers.typescript
-
-  if (answers.nuxt && !answers.typescript) {
-    configs.push('alsacreations/nuxt')
+  const configs: Record<string, string> = {
+    js: `import js from 'eslint-config-alsacreations/configs/javascript'`,
   }
 
-  if (answers.nuxt && answers.typescript) {
-    configs.push('alsacreations/nuxt-typescript')
+  if (answers.vue) {
+    configs.vue = `import vue from 'eslint-config-alsacreations/configs/vue'`
   }
 
-  if (answers.vue && !answers.typescript) {
-    configs.push('alsacreations/vue')
-  }
-
-  if (answers.vue && answers.typescript) {
-    configs.push('alsacreations/vue-typescript')
-  }
-
-  if (!VueTS && !NuxtTS && answers.typescript) {
-    configs.push('alsacreations/typescript')
+  if (answers.typescript) {
+    configs.typescript = `import typescript from 'eslint-config-alsacreations/configs/typescript'`
   }
 
   if (answers.solid && !answers.typescript) {
-    configs.push('alsacreations/solid')
+    configs.solid = `import solid from 'eslint-config-alsacreations/configs/solid'`
   }
 
   if (answers.solid && answers.typescript) {
-    configs.push('alsacreations/solid-typescript')
+    configs.solidTs = `import solidTs from 'eslint-config-alsacreations/configs/solid-typescript'`
   }
 
-  if ((answers.vue || answers.nuxt) && answers.prettier) {
-    configs.push('alsacreations/prettier-vue')
-  }
-
-  if (!answers.vue && !answers.nuxt && answers.prettier) {
-    configs.push('alsacreations/prettier')
+  if (answers.prettier) {
+    configs.prettier = `import prettier from 'eslint-config-alsacreations/configs/prettier'`
   }
 
   return configs

@@ -19,13 +19,9 @@ const questions = [
     message: 'Do you use Astro ?',
   },
   {
-    name: 'nuxt',
-    message: 'Do you use Nuxt ?',
-  },
-  {
     name: 'vue',
-    message: 'Do you use Vue ?',
-    when: (answers) => answers['nuxt'] === false,
+    message:
+      'Do you use Vue ? (Nuxt is not supported, do not select this option if you use Nuxt)',
   },
 ] as const satisfies readonly {
   name: string
@@ -37,10 +33,6 @@ export async function getAnswers() {
   const answers: Record<string, boolean> = {}
 
   for await (const question of questions) {
-    if ('when' in question && question.when && !question.when(answers)) {
-      continue
-    }
-
     const answer = await consola.prompt(question.message, {
       type: 'confirm',
     })

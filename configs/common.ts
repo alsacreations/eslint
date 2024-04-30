@@ -1,6 +1,6 @@
-import { defineConfig } from 'eslint-define-config'
+import tseslint from 'typescript-eslint'
 
-export = defineConfig({
+export default tseslint.config({
   rules: {
     // triple = obligatoire
     eqeqeq: 'error',

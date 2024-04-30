@@ -1,21 +1,17 @@
-import { defineConfig } from 'eslint-define-config'
+import tseslint from 'typescript-eslint'
+import eslintJs from '@eslint/js'
+import common from './common'
 
-export = defineConfig({
-  extends: ['eslint:recommended', '../common'],
-  parserOptions: {
+export default tseslint.config(eslintJs.configs.recommended, ...common, {
+  languageOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-  },
-  env: {
-    node: true,
-    browser: true,
   },
   rules: {
     'no-use-before-define': 'error',
     curly: ['error', 'all'], // {} toujours requises
     'no-trailing-spaces': 'error', // pas d'espaces vides
     'object-shorthand': ['error', 'always'],
-    // les const, c'est la vie
     'prefer-const': [
       'error',
       {

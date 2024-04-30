@@ -37,12 +37,9 @@ program
       ])
 
       let prettierConfigPath = await findUp([
-        `.prettierrc.js`,
         `prettier.config.js`,
         `prettier.config.cjs`,
         `prettier.config.mjs`,
-        `.prettierrc.mjs`,
-        `.prettierrc.cjs`,
       ])
 
       if (prettierConfigPath && answers.prettier && answers.astro) {
@@ -149,19 +146,18 @@ program
 
         const newEslintConfigPath = path.resolve(
           path.dirname(closestPackageJson),
-          '.eslintrc.cjs',
+          '.eslintrc.mjs',
         )
 
         await writeFile(
           newEslintConfigPath,
           await prettier.format(
             `
-          require('@rushstack/eslint-patch/modern-module-resolution')
+          ${/* import statements */ Object.values(configs).join('\n')}
 
-          module.exports = {
-            root: true,
-            extends: ${JSON.stringify(configs)},
-          }`,
+          export default [
+              ${/* use the import statements */ Object.keys(configs).join(',\n')}
+          ]`,
             {
               semi: false,
               parser: 'babel',
@@ -175,44 +171,6 @@ program
       }
 
       if (
-        eslintConfigPath &&
-        (eslintConfigPath.endsWith('.js') || eslintConfigPath.endsWith('.cjs'))
-      ) {
-        consola.box(
-          chalk.bold.blue(
-            `Please add the following line at the top of your ESLint config file:`,
-          ),
-          chalk.green(
-            codeBlock`require('@rushstack/eslint-patch/modern-module-resolution')`,
-          ),
-        )
-
-        const confirmed = await consola.prompt('Do you want to continue?', {
-          type: 'confirm',
-        })
-
-        if (!confirmed) {
-          process.exit(0)
-        }
-
-        consola.box(
-          [
-            chalk.bold.blue(
-              `Please add the following configuration to your ESLint config file:`,
-            ),
-            '\n\n',
-            chalk.green(codeBlock`extends: ${JSON.stringify(configs)}`),
-          ].join(''),
-        )
-
-        const confirmed2 = await consola.prompt('Do you want to continue?', {
-          type: 'confirm',
-        })
-
-        if (!confirmed2) {
-          process.exit(0)
-        }
-      } else if (
         eslintConfigPath &&
         (eslintConfigPath.endsWith('.yaml') ||
           eslintConfigPath.endsWith('.yml') ||

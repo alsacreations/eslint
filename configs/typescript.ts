@@ -1,26 +1,8 @@
-import { defineConfig } from 'eslint-define-config'
-import { TS } from '../utils'
-import { consola } from 'consola'
+import tseslint from 'typescript-eslint'
 
-function getConfig() {
-  if (!TS) {
-    consola.warn(
-      `'eslint-config-alsacreations/typescript' config wanted but 'typescript' not installed. Skipping.`,
-    )
-
-    return defineConfig({})
-  }
-
-  return defineConfig({
-    extends: ['plugin:@typescript-eslint/recommended'],
-
-    plugins: ['@typescript-eslint'],
-
-    // Utilisation de parserOptions.parser pour être compatible avec eslint-plugin-vue
-    // parserOptions: {
-    //   parser: '@typescript-eslint/parser'
-    // },
-
+export default tseslint.config(
+  ...tseslint.configs.recommended,
+  {
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -59,25 +41,21 @@ function getConfig() {
       '@typescript-eslint/prefer-ts-expect-error': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
     },
-    overrides: [
-      {
-        // enable the rule specifically for TypeScript files
-        files: ['*.ts', '*.mts', '*.cts', '*.tsx'],
-        rules: {
-          '@typescript-eslint/explicit-member-accessibility': [
-            'error',
-            {
-              accessibility: 'explicit',
-              overrides: {
-                parameterProperties: 'off',
-              },
-            },
-          ],
-          'no-unused-vars': 'off',
+  },
+  {
+    // enable the rule specifically for TypeScript files
+    files: ['*.ts', '*.mts', '*.cts', '*.tsx'],
+    rules: {
+      '@typescript-eslint/explicit-member-accessibility': [
+        'error',
+        {
+          accessibility: 'explicit',
+          overrides: {
+            parameterProperties: 'off',
+          },
         },
-      },
-    ],
-  })
-}
-
-export = getConfig()
+      ],
+      'no-unused-vars': 'off',
+    },
+  },
+)

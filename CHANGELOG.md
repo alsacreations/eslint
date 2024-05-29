@@ -1,3 +1,24 @@
+## v2.2.0
+
+[compare changes](https://github.com/alsacreations/eslint/compare/v2.1.1...v2.2.0)
+
+### 🚀 Enhancements
+
+- **javascript:** Add `eslint:recommended` default config ([3331fdc](https://github.com/alsacreations/eslint/commit/3331fdc))
+
+### 🏡 Chore
+
+- Disable slack integration ([70e0d15](https://github.com/alsacreations/eslint/commit/70e0d15))
+- Add compatibility with version 9 of eslint ([4b3d89b](https://github.com/alsacreations/eslint/commit/4b3d89b))
+
+### 🤖 CI
+
+- Update node and pnpm version ([046552b](https://github.com/alsacreations/eslint/commit/046552b))
+
+### ❤️ Contributors
+
+- Nicolas Sutter <contact.sutter.nicolas@gmail.com>
+
 ## v2.1.1
 
 [compare changes](https://github.com/alsacreations/eslint/compare/v2.1.0...v2.1.1)

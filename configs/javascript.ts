@@ -1,13 +1,16 @@
 import tseslint from 'typescript-eslint'
 import eslintJs from '@eslint/js'
-import common from './common'
 
-export default tseslint.config(eslintJs.configs.recommended, ...common, {
+const config = tseslint.config(eslintJs.configs.recommended, {
   languageOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
   rules: {
+    // triple = obligatoire
+    eqeqeq: 'error',
+    // Préfère les template string que les concaténations
+    'prefer-template': 'error',
     'no-use-before-define': 'error',
     curly: ['error', 'all'], // {} toujours requises
     'no-trailing-spaces': 'error', // pas d'espaces vides
@@ -30,3 +33,5 @@ export default tseslint.config(eslintJs.configs.recommended, ...common, {
     ],
   },
 })
+
+export default config as unknown[]

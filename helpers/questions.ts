@@ -21,7 +21,7 @@ const questions = [
   {
     name: 'vue',
     message:
-      'Do you use Vue ? (Nuxt is not supported, do not select this option if you use Nuxt)',
+      'Do you use Vue ? (Nuxt is not supported by the automatic installer, do not select this option if you use Nuxt, please use the package at https://eslint.nuxt.com/packages/module)',
   },
 ] as const satisfies readonly {
   name: string

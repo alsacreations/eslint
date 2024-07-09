@@ -1,38 +1,22 @@
 /// <reference path="./untyped.d.ts" />
 
-import commonConfig from './common'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
 
-/**
- * Pour Vue, on prefix par `vue/`
- * @example `vue/space-in-parens`
- */
-const commonVueConfigs = commonConfig.map((config) => {
-  const rules = Object.fromEntries(
-    Object.entries(config.rules as Record<string, any>).map(([key, value]) => [
-      `vue/${key}`,
-      value,
-    ]),
-  )
-
-  return {
-    rules,
-  }
-})
-
-export default tseslint.config(
-  ...commonConfig,
-  ...commonVueConfigs,
+const config = tseslint.config(
   ...pluginVue.configs['flat/recommended'],
   {
-    files: ['*.vue'],
+    files: ['**/*.vue'],
     rules: {
       'no-undef': 'off',
     },
   },
   {
     rules: {
+      // triple = obligatoire
+      'vue/eqeqeq': 'error',
+      // Préfère les template string que les concaténations
+      'vue/prefer-template': 'error',
       'vue/no-spaces-around-equal-signs-in-attribute': 'error',
       'vue/this-in-template': ['error', 'never'],
       'vue/v-on-style': ['error', 'longform'],
@@ -66,3 +50,5 @@ export default tseslint.config(
     },
   },
 )
+
+export default config as unknown[]

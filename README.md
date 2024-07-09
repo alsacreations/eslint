@@ -19,7 +19,7 @@ Ce repo contient le paquet npm correspondant à la configuration ESLint & Pretti
 
 - Utilisation du plugin `eslint-plugin-solid`
 
-### 😎 Configuration Vue 3
+### 😎 Configuration Vue 3 (sans Nuxt)
 
 - Utilisation du plugin `eslint-plugin-vue`
 
@@ -36,9 +36,9 @@ npx eslint-config-alsacreations@latest init
 # pnpm dlx eslint-config-alsacreations@latest init
 ```
 
-### Configuration
+## Configuration manuelle
 
-Puis ajouter un fichier de configuration à la racine `.eslintrc.js` ou équivalent.
+Puis ajouter un fichier de configuration à la racine `eslint.config.mjs` ou équivalent.
 
 ```ts
 import js from 'eslint-config-alsacreations/configs/javascript'

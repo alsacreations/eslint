@@ -1,27 +1,37 @@
 #!/usr/bin/env node
 
-import { consola } from 'consola'
-import { program } from 'commander'
 import { writeFile } from 'fs/promises'
 import { getDeps } from '../helpers/deps'
 import { getConfigs } from '../helpers/configs'
 import { getAnswers } from '../helpers/questions'
-import prettier from 'prettier'
 import path from 'node:path'
-import { codeBlock } from 'common-tags'
+import { program } from 'commander'
+
+const VERSION = process.env.VERSION ?? 'unknown'
 
 program
   .name('eslint-config-alsacreations')
   .description('Bootstrap eslint-config-alsacreations in a project')
-  .version('0.1.0')
+  .version(VERSION)
 
 program
   .command('init')
   .description('Bootstrap eslint-config-alsacreations in a project')
   .action(async () => {
     try {
-      const [{ findUp }, { execaCommand }, { default: chalk }] =
-        await Promise.all([import('find-up'), import('execa'), import('chalk')])
+      const [
+        { findUp },
+        { execaCommand },
+        { default: chalk },
+        { default: prettier },
+        { consola },
+      ] = await Promise.all([
+        import('find-up'),
+        import('execa'),
+        import('chalk'),
+        import('prettier'),
+        import('consola'),
+      ])
 
       const answers = await getAnswers()
 
@@ -29,11 +39,9 @@ program
       const configs = getConfigs(answers)
 
       let eslintConfigPath = await findUp([
-        `.eslintrc.js`,
-        `.eslintrc.cjs`,
-        `.eslintrc.yaml`,
-        `.eslintrc.yml`,
-        `.eslintrc.json`,
+        `eslint.config.js`,
+        `eslint.config.mjs`,
+        `eslint.config.cjs`,
       ])
 
       let prettierConfigPath = await findUp([
@@ -49,16 +57,16 @@ program
               `Please add the following to your Prettier config file:`,
             ),
             chalk.green(
-              codeBlock`
-            "plugins": ["prettier-plugin-astro"],
-            "overrides": [
-              {
-                "files": "*.astro",
-                "options": {
-                  "parser": "astro"
-                }
-              }
-            ]`,
+              `
+"plugins": ["prettier-plugin-astro"],
+"overrides": [
+  {
+    "files": "*.astro",
+    "options": {
+      "parser": "astro"
+    }
+  }
+]`.trim(),
             ),
           ].join('\n\n'),
         )
@@ -85,7 +93,7 @@ program
 
         const newPrettierConfigPath = path.resolve(
           path.dirname(closestPackageJson),
-          '.prettierrc.mjs',
+          'prettier.config.mjs',
         )
 
         await writeFile(
@@ -106,16 +114,16 @@ program
               'jsxSingleQuote': true,
               ${
                 answers.astro
-                  ? codeBlock`
-                plugins: ['prettier-plugin-astro'],
-                overrides: [
-                  {
-                    files: '*.astro',
-                    options: {
-                      parser: 'astro',
-                    },
-                  },
-                ],`
+                  ? `
+plugins: ['prettier-plugin-astro'],
+overrides: [
+  {
+    files: '*.astro',
+    options: {
+      parser: 'astro',
+    },
+  },
+],`.trim()
                   : ``
               }
             }`,
@@ -146,7 +154,7 @@ program
 
         const newEslintConfigPath = path.resolve(
           path.dirname(closestPackageJson),
-          '.eslintrc.mjs',
+          'eslint.config.mjs',
         )
 
         await writeFile(
@@ -157,7 +165,7 @@ program
 
           export default [
               ${/* use the import statements */ Object.keys(configs).join(',\n')}
-          ]`,
+          ].flat()`,
             {
               semi: false,
               parser: 'babel',
@@ -168,17 +176,6 @@ program
         )
 
         consola.success('Successfully created ESLint config file')
-      }
-
-      if (
-        eslintConfigPath &&
-        (eslintConfigPath.endsWith('.yaml') ||
-          eslintConfigPath.endsWith('.yml') ||
-          eslintConfigPath.endsWith('.json'))
-      ) {
-        throw new Error(
-          `ESLint config file is not a JavaScript file. JSON and YAML files are not supported.`,
-        )
       }
 
       try {
@@ -218,6 +215,8 @@ program
         )
       }
     } catch (error) {
+      const { consola } = await import('consola')
+
       if (
         typeof error === 'object' &&
         error !== null &&

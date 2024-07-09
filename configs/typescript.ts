@@ -1,6 +1,6 @@
 import tseslint from 'typescript-eslint'
 
-export default tseslint.config(
+const config = tseslint.config(
   ...tseslint.configs.recommended,
   {
     rules: {
@@ -59,3 +59,5 @@ export default tseslint.config(
     },
   },
 )
+
+export default config as unknown[]

@@ -1,21 +1,20 @@
-import { defineConfig } from 'eslint-define-config'
+import tseslint from 'typescript-eslint'
+import eslintJs from '@eslint/js'
 
-export = defineConfig({
-  extends: ['eslint:recommended', '../common'],
-  parserOptions: {
+const config = tseslint.config(eslintJs.configs.recommended, {
+  languageOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  env: {
-    node: true,
-    browser: true,
-  },
   rules: {
+    // triple = obligatoire
+    eqeqeq: 'error',
+    // Préfère les template string que les concaténations
+    'prefer-template': 'error',
     'no-use-before-define': 'error',
     curly: ['error', 'all'], // {} toujours requises
     'no-trailing-spaces': 'error', // pas d'espaces vides
     'object-shorthand': ['error', 'always'],
-    // les const, c'est la vie
     'prefer-const': [
       'error',
       {
@@ -34,3 +33,5 @@ export = defineConfig({
     ],
   },
 })
+
+export default config as unknown[]

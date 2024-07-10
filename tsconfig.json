@@ -11,16 +11,15 @@
     "esModuleInterop": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "CommonJS",
+    "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
-    "declaration": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "noEmit": true
   },
   "include": [
-    "./src",
-    "./types",
+    "./configs",
     "./helpers",
     "./bin"
   ],

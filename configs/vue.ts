@@ -1,34 +1,22 @@
-import { defineConfig } from 'eslint-define-config'
-import { removeUnusedItems } from '../utils'
-import commonConfig = require('../common')
+/// <reference path="./untyped.d.ts" />
 
-/**
- * Pour Vue, on prefix par `vue/`
- * @example `vue/space-in-parens`
- */
-const commonVueConfig = defineConfig({
-  rules: Object.fromEntries(
-    Object.entries(commonConfig.rules as Record<string, any>).map(
-      ([key, value]) => [`vue/${key}`, value],
-    ),
-  ),
-})
+import tseslint from 'typescript-eslint'
+import pluginVue from 'eslint-plugin-vue'
 
-function getConfig() {
-  return defineConfig({
-    overrides: [
-      {
-        files: ['*.vue'],
-        rules: {
-          'no-undef': 'off',
-        },
-      },
-    ],
-
-    extends: removeUnusedItems(['plugin:vue/vue3-recommended', '../common']),
-
+const config = tseslint.config(
+  ...pluginVue.configs['flat/recommended'],
+  {
+    files: ['**/*.vue'],
     rules: {
-      ...commonVueConfig.rules,
+      'no-undef': 'off',
+    },
+  },
+  {
+    rules: {
+      // triple = obligatoire
+      'vue/eqeqeq': 'error',
+      // Préfère les template string que les concaténations
+      'vue/prefer-template': 'error',
       'vue/no-spaces-around-equal-signs-in-attribute': 'error',
       'vue/this-in-template': ['error', 'never'],
       'vue/v-on-style': ['error', 'longform'],
@@ -60,7 +48,7 @@ function getConfig() {
       'vue/define-macros-order': ['error'],
       'vue/define-props-declaration': ['error', 'type-based'],
     },
-  })
-}
+  },
+)
 
-export = getConfig()
+export default config as unknown[]
